@@ -22,10 +22,11 @@ public class cargar_propiedad extends AppCompatActivity {
     private Button acceptButton;
     private BottomNavigationView bottomNavigationView;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.cargar_propiedad);
+        setContentView(R.layout.activity_cargar_propiedad);
 
         // Inicializar vistas
         nameEditText = findViewById(R.id.name);
@@ -56,7 +57,7 @@ public class cargar_propiedad extends AppCompatActivity {
             int id = item.getItemId();
             if (id == R.id.navigation_profile) {
                 // Cambiar a la pantalla de perfil
-                Intent intent = new Intent(cargar_propiedad.this, ProfileActivity.class);
+                Intent intent = new Intent(cargar_propiedad.this, perfil.class);
                 intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
                 startActivity(intent);
                 return true;

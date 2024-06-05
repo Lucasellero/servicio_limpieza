@@ -1,65 +1,59 @@
-<RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".cargar_propiedad"
-    >
+    tools:context=".cargar_propiedad">
+
     <TextView
         android:id="@+id/title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
         android:layout_centerHorizontal="true"
+        android:layout_marginTop="16dp"
         android:text="Cargar propiedad"
         android:textSize="24sp"
-        android:textStyle="bold"
-        />
-    <TextView android:id="@+id/upload_image_label"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/upload_image_label"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/title"
         android:layout_marginTop="23dp"
         android:text="Cargar imagen"
-        android:textSize="18sp"
-        />
+        android:textSize="18sp" />
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/upload_image_label"
         android:layout_marginTop="16dp"
-        android:orientation="horizontal"
         android:gravity="center"
-        android:paddingHorizontal="16dp"
-        >
+        android:orientation="horizontal"
+        android:paddingHorizontal="16dp">
+
         <ImageView
             android:layout_width="179dp"
             android:layout_height="155dp"
             android:layout_marginEnd="16dp"
             android:contentDescription="Image placeholder"
-            android:src="@drawable/imagen_propiedad_3"/>
+            android:src="@drawable/imagen_propiedad_3" />
+
         <ImageView
             android:layout_width="148dp"
             android:layout_height="137dp"
             android:layout_marginEnd="16dp"
             android:contentDescription="Image placeholder"
-            android:src="@drawable/imagen_propiedad_1"/>
+            android:src="@drawable/imagen_propiedad_1" />
+
         <ImageView
             android:layout_width="148dp"
             android:layout_height="137dp"
             android:contentDescription="Image placeholder"
-            android:src="@drawable/imagen_propiedad_2"/>
+            android:src="@drawable/imagen_propiedad_2" />
     </LinearLayout>
-    <TextView
-        android:id="@+id/upload_data_label"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_above="@id/data_container"
-        android:layout_centerHorizontal="true"
-        android:layout_marginBottom="16dp"
-        android:text="Cargar datos"
-        android:textSize="18sp"/>
+
     <LinearLayout
         android:id="@+id/data_container"
         android:layout_width="match_parent"
@@ -67,52 +61,61 @@
         android:layout_above="@id/button_container"
         android:orientation="vertical"
         android:paddingHorizontal="16dp">
+
         <EditText
             android:id="@+id/name"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="Nombre"/>
+            android:layout_height="48dp"
+            android:hint="Nombre" />
+
         <EditText
             android:id="@+id/city"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="Ciudad"/>
+            android:layout_height="48dp"
+            android:hint="Ciudad" />
+
         <EditText
             android:id="@+id/address"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="Dirección"/>
+            android:layout_height="48dp"
+            android:hint="Dirección" />
+
         <EditText
             android:id="@+id/state"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="Estado"/>
+            android:layout_height="48dp"
+            android:hint="Estado" />
+
         <EditText
             android:id="@+id/size"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="Tamaño"/>
+            android:layout_height="48dp"
+            android:hint="Tamaño" />
+
         <EditText
             android:id="@+id/type"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="Tipo"/>
+            android:layout_height="48dp"
+            android:hint="Tipo" />
     </LinearLayout>
+
     <LinearLayout
         android:id="@+id/button_container"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_above="@id/bottom_navigation"
+        android:gravity="center"
         android:orientation="horizontal"
-        android:padding="16dp"
-        android:gravity="center">
+        android:padding="16dp">
+
         <Button
             android:id="@+id/cancel_button"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:backgroundTint="#005AB7"
-            android:text="Cancelar"/>
+            android:text="Cancelar" />
+
         <Button
             android:id="@+id/accept_button"
             android:layout_width="0dp"
@@ -121,13 +124,14 @@
             android:layout_weight="1"
             android:backgroundTint="#2897ED"
             android:onClick="GetTextFromSQL"
-            android:text="Aceptar"/>
+            android:text="Aceptar" />
     </LinearLayout>
+
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/bottom_navigation"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_marginBottom="2dp"
-        app:menu="@menu/bottom_navigation_menu"/>
+        app:menu="@menu/bottom_navigation_menu" />
 </RelativeLayout>

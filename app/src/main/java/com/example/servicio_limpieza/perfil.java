@@ -7,7 +7,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
-public class ProfileActivity extends AppCompatActivity {
+public class perfil extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -22,7 +22,7 @@ public class ProfileActivity extends AppCompatActivity {
                 int id = item.getItemId();
                 if (id == R.id.navigation_home) {
                     // Cambiar a la pantalla de inicio (MainActivity)
-                    Intent intent = new Intent(ProfileActivity.this, cargar_propiedad.class);
+                    Intent intent = new Intent(perfil.this, perfil.class);
                     intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
                     startActivity(intent);
                     return true;

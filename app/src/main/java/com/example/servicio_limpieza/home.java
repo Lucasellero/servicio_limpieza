@@ -21,6 +21,7 @@ public class home extends AppCompatActivity {
         setContentView(R.layout.activity_home);
 
         Button btnCargarPropiedad = findViewById(R.id.btnCargarPropiedad);
+        bottomNavigationView = findViewById(R.id.bottom_navigation); // Asegúrate de inicializar aquí
 
         btnCargarPropiedad.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -50,3 +51,4 @@ public class home extends AppCompatActivity {
         bottomNavigationView.setSelectedItemId(R.id.navigation_home);
     }
 }
+

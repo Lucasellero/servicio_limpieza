@@ -1,11 +1,10 @@
 package com.example.servicio_limpieza;
 
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.content.Intent;
-import android.os.StrictMode;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -70,54 +69,59 @@ public class crear_cuenta extends AppCompatActivity {
         buttonCrearCuenta.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Log.d("CrearCuenta", "Botón Crear Cuenta presionado");
-                crearCuenta();
+                // Ejecutar AsyncTask para crear cuenta
+                new CrearCuentaTask().execute();
             }
         });
+    }
+
+    private class CrearCuentaTask extends AsyncTask<Void, Void, String> {
+        @Override
+        protected String doInBackground(Void... voids) {
+            String mensaje;
+            try {
+                Connection conn = conexionBD();
+                if (conn == null) {
+                    return "No se pudo establecer conexión con la base de datos";
+                }
+
+                PreparedStatement cuenta = conn.prepareStatement("INSERT INTO propietarios (nombre, apellido, direccion, telefono, genero, email, contraseña) VALUES (?, ?, ?, ?, ?, ?, ?)");
+                cuenta.setString(1, editNombre.getText().toString());
+                cuenta.setString(2, editApellido.getText().toString());
+                cuenta.setString(3, editDireccion.getText().toString());
+                cuenta.setString(4, editTelefono.getText().toString());
+                cuenta.setString(5, spinnerGenero.getSelectedItem().toString());
+                cuenta.setString(6, editEmail.getText().toString());
+                cuenta.setString(7, editContraseña.getText().toString());
+                int result = cuenta.executeUpdate();
+                mensaje = result > 0 ? "Registro exitoso" : "Error al crear la cuenta";
+            } catch (SQLException e) {
+                mensaje = "Error al crear la cuenta. Por favor, inténtalo de nuevo.";
+            }
+            return mensaje;
+        }
+
+        @Override
+        protected void onPostExecute(String result) {
+            Toast.makeText(getApplicationContext(), result, Toast.LENGTH_SHORT).show();
+            if (result.equals("Registro exitoso")) {
+                Intent intent = new Intent(crear_cuenta.this, iniciarSesion.class);
+                startActivity(intent);
+                finish();
+            }
+        }
     }
 
     public Connection conexionBD() {
         Connection conexion = null;
         try {
-            StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
-            StrictMode.setThreadPolicy(policy);
-
             Class.forName("net.sourceforge.jtds.jdbc.Driver");
-
-            String url = "jdbc:jtds:sqlserver://192.168.1.5:1433;databaseName=seminario;user=sa;password=1234";
+            String url = "jdbc:jtds:sqlserver://192.168.1.15:1433;databaseName=seminario;user=sa;password=1234";
             conexion = DriverManager.getConnection(url);
-            Log.d("Conexion BD", "Conexión exitosa");
-
         } catch (Exception e) {
-            Log.e("Error Conexion BD", "Error al conectar: " + e.getMessage());
-            Toast.makeText(getApplicationContext(), "Error al conectar: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+            e.printStackTrace();
         }
         return conexion;
     }
-
-    public void crearCuenta() {
-        try {
-            PreparedStatement cuenta = conexionBD().prepareStatement("INSERT INTO propietarios (nombre, apellido, direccion, telefono, genero, email, contraseña) VALUES (?, ?, ?, ?, ?, ?, ?)");
-            cuenta.setString(1, editNombre.getText().toString());
-            cuenta.setString(2, editApellido.getText().toString());
-            cuenta.setString(3, editDireccion.getText().toString());
-            cuenta.setString(4, editTelefono.getText().toString());
-            cuenta.setString(5, spinnerGenero.getSelectedItem().toString());
-            cuenta.setString(6, editEmail.getText().toString());
-            cuenta.setString(7, editContraseña.getText().toString());
-            cuenta.executeUpdate();
-
-            Toast.makeText(getApplicationContext(), "Registro exitoso", Toast.LENGTH_SHORT).show();
-            Log.d("Conexion BD", "Conexión exitosa");
-
-            // Redirigir a la pantalla de inicio de sesión
-            Intent intent = new Intent(crear_cuenta.this, iniciarSesion.class);
-            startActivity(intent);
-            finish(); // Opcional: cerrar la actividad actual
-
-        } catch (SQLException e) {
-            Log.e("Error SQL", "Error al ejecutar consulta: " + e.getMessage());
-            Toast.makeText(getApplicationContext(), "Error al crear la cuenta. Por favor, inténtalo de nuevo.", Toast.LENGTH_SHORT).show();
-        }
-    }
 }
+

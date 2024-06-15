@@ -37,7 +37,6 @@
             android:name=".recuperar_contra"
             android:theme="@style/Theme.Servicio_limpieza"
             android:exported="false" />
-
         <activity
             android:name=".home"
             android:theme="@style/Theme.Servicio_limpieza"
@@ -47,12 +46,9 @@
             android:name=".cargar_propiedad"
             android:theme="@style/Theme.Servicio_limpieza"
             android:exported="false" />
-
         <activity
             android:name=".perfil"
             android:theme="@style/Theme.Servicio_limpieza"
             android:exported="false" />
-
     </application>
-
 </manifest>

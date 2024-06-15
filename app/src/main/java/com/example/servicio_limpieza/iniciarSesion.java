@@ -1,5 +1,6 @@
 package com.example.servicio_limpieza;
 
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.content.Intent;
@@ -16,6 +17,7 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+
 
 public class iniciarSesion extends AppCompatActivity {
 
@@ -73,31 +75,48 @@ public class iniciarSesion extends AppCompatActivity {
         });
     }
 
-    private class IniciarSesionTask extends AsyncTask<Void, Void, Boolean> {
+    private class IniciarSesionTask extends AsyncTask<Void, Void, usuario> {
         @Override
-        protected Boolean doInBackground(Void... voids) {
-            boolean exito = false;
+        protected usuario doInBackground(Void... voids) {
+            usuario Usuario = null;
             try {
                 Connection conn = conexionBD();
                 if (conn == null) {
-                    return false;
+                    return null;
                 }
 
                 PreparedStatement cuenta = conn.prepareStatement("SELECT * FROM propietarios WHERE email = ? AND contraseña = ?");
                 cuenta.setString(1, editEmail.getText().toString());
                 cuenta.setString(2, editContraseña.getText().toString());
                 ResultSet resultSet = cuenta.executeQuery();
-                exito = resultSet.next();
+
+                if (resultSet.next()) {
+                    int id = resultSet.getInt("PK_propietario_ID");
+                    String nombre = resultSet.getString("nombre");
+                    String apellido = resultSet.getString("apellido");
+                    String direccion = resultSet.getString("direccion");
+                    String telefono = resultSet.getString("telefono");
+                    String genero = resultSet.getString("genero");
+                    String email = resultSet.getString("email");
+                    String contrasena = resultSet.getString("contraseña");
+
+                    // Crear el objeto Usuario
+                    Usuario = usuario.getInstance(id, nombre, apellido, direccion, telefono, genero, email, contrasena);
+                }
             } catch (SQLException e) {
                 e.printStackTrace();
             }
-            return exito;
+            return Usuario;
         }
 
         @Override
-        protected void onPostExecute(Boolean success) {
-            if (success) {
+        protected void onPostExecute(usuario usuario) {
+            if (usuario != null) {
                 Toast.makeText(getApplicationContext(), "Inicio de sesión exitoso", Toast.LENGTH_SHORT).show();
+                // Aquí puedes almacenar el usuario en SharedPreferences o mantenerlo como referencia global
+                // Ejemplo de almacenamiento en SharedPreferences
+                guardarUsuarioEnSesion(usuario);
+
                 Intent intent = new Intent(iniciarSesion.this, home.class);
                 startActivity(intent);
                 finish();
@@ -118,5 +137,13 @@ public class iniciarSesion extends AppCompatActivity {
         }
         return conexion;
     }
-}
 
+    private void guardarUsuarioEnSesion(usuario usuario) {
+        // Implementa tu lógica para guardar el usuario en sesión, por ejemplo, en SharedPreferences
+        SharedPreferences sharedPreferences = getSharedPreferences("sesion", MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putInt("idUsuario", usuario.getId());
+        // Aquí puedes guardar más detalles del usuario si es necesario
+        editor.apply();
+    }
+}

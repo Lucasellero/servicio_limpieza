@@ -1,9 +1,9 @@
 package com.example.servicio_limpieza;
 
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -67,22 +67,16 @@ public class cargar_propiedad extends AppCompatActivity {
         String nombre = nameEditText.getText().toString();
         String barrio = cityEditText.getText().toString();
         String direccion = addressEditText.getText().toString();
-        int estado = Integer.parseInt(stateEditText.getText().toString());
-        float tamano = Float.parseFloat(sizeEditText.getText().toString());
+        String estado = stateEditText.getText().toString();
+        int tamano = Integer.parseInt(sizeEditText.getText().toString());
         String tipo = typeEditText.getText().toString();
 
         // Obtener el ID del usuario en sesión
-        int propietarioId = obtenerIdUsuarioEnSesion();
+        usuario Usuario = usuario.getInstance();
+        int propietarioId = Usuario.getId();
 
         // Ejecutar AsyncTask para cargar la propiedad
-        new CargarPropiedadTask().execute(nombre, barrio, direccion, String.valueOf(estado), String.valueOf(tamano), tipo, String.valueOf(propietarioId));
-    }
-
-    private int obtenerIdUsuarioEnSesion() {
-        // Implementa tu lógica para obtener el ID del usuario en sesión, por ejemplo desde SharedPreferences
-        // Aquí un ejemplo básico (debes implementar según cómo manejes la sesión en tu app)
-        SharedPreferences sharedPreferences = getSharedPreferences("sesion", MODE_PRIVATE);
-        return sharedPreferences.getInt("idUsuario", -1); // -1 si no se encuentra
+        new CargarPropiedadTask().execute(nombre, barrio, direccion, estado, String.valueOf(tamano), tipo, String.valueOf(propietarioId));
     }
 
     private class CargarPropiedadTask extends AsyncTask<String, Void, String> {
@@ -92,30 +86,49 @@ public class cargar_propiedad extends AppCompatActivity {
             String nombre = params[0];
             String barrio = params[1];
             String direccion = params[2];
-            int estado = Integer.parseInt(params[3]);
-            float tamano = Float.parseFloat(params[4]);
+            String estado = params[3];
+            int tamano = Integer.parseInt(params[4]);
             String tipo = params[5];
             int propietarioId = Integer.parseInt(params[6]);
 
+            Log.d("CargarPropiedadTask", "Datos recibidos: " + nombre + ", " + barrio + ", " + direccion + ", " + estado + ", " + tamano + ", " + tipo + ", " + propietarioId);
+
+            Connection conn = null;
+            PreparedStatement stmt = null;
+
             try {
-                Connection conn = conexionBD();
+                conn = conexionBD();
                 if (conn == null) {
+                    Log.e("CargarPropiedadTask", "No se pudo establecer conexión con la base de datos");
                     return "No se pudo establecer conexión con la base de datos";
                 }
 
-                PreparedStatement stmt = conn.prepareStatement("INSERT INTO propiedades (nombre, barrio, direccion, estado, tamano, tipo, FK_propietario_ID) VALUES (?, ?, ?, ?, ?, ?, ?)");
-                stmt.setString(1, nombre);
-                stmt.setString(2, barrio);
-                stmt.setString(3, direccion);
-                stmt.setInt(4, estado);
-                stmt.setFloat(5, tamano);
-                stmt.setString(6, tipo);
-                stmt.setInt(7, propietarioId);
+                String sql = "INSERT INTO propiedades (nombre, barrio, direccion, estado, tamano, tipo, FK_propietario_ID) VALUES (?, ?, ?, ?, ?, ?, ?)";
+                stmt = conn.prepareStatement(sql);
+                stmt.setString(1, String.valueOf(nombre));
+                stmt.setString(2, String.valueOf(barrio));
+                stmt.setString(3, String.valueOf(direccion));
+                stmt.setString(4, String.valueOf(estado));
+                stmt.setInt(5, Integer.parseInt(String.valueOf(tamano)));
+                stmt.setString(6, String.valueOf(tipo));
+                stmt.setInt(7, Integer.parseInt(String.valueOf(propietarioId)));
 
                 int result = stmt.executeUpdate();
                 mensaje = result > 0 ? "Propiedad cargada exitosamente" : "Error al cargar la propiedad";
             } catch (SQLException e) {
-                mensaje = "Error al cargar la propiedad. Por favor, inténtalo de nuevo.";
+                //mensaje = "Error al cargar la propiedad. Por favor, inténtalo de nuevo.";
+                mensaje = nombre + barrio + direccion+ estado + tamano + tipo + propietarioId;
+                Log.e("CargarPropiedadTask", "Error al ejecutar la consulta SQL", e);
+            } catch (Exception e) {
+                mensaje = "Error inesperado. Por favor, inténtalo de nuevo.";
+                Log.e("CargarPropiedadTask", "Error inesperado", e);
+            } finally {
+                try {
+                    if (stmt != null) stmt.close();
+                    if (conn != null) conn.close();
+                } catch (SQLException e) {
+                    Log.e("CargarPropiedadTask", "Error al cerrar recursos", e);
+                }
             }
             return mensaje;
         }
@@ -138,9 +151,8 @@ public class cargar_propiedad extends AppCompatActivity {
             String url = "jdbc:jtds:sqlserver://192.168.1.15:1433;databaseName=seminario;user=sa;password=1234";
             conexion = DriverManager.getConnection(url);
         } catch (Exception e) {
-            e.printStackTrace();
+            Log.e("conexionBD", "Error al establecer conexión con la base de datos", e);
         }
         return conexion;
     }
 }
-

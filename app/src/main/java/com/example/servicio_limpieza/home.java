@@ -5,6 +5,8 @@ import android.os.Bundle;
 import android.view.View;
 
 import android.widget.Button;
+import android.widget.TextView;
+
 import com.example.servicio_limpieza.*;
 
 import androidx.activity.EdgeToEdge;
@@ -49,8 +51,19 @@ public class home extends AppCompatActivity {
             return false;
         });
 
+        usuario Usuario = usuario.getInstance();
+
         // Establecer el ítem seleccionado en el BottomNavigationView
         bottomNavigationView.setSelectedItemId(R.id.navigation_home);
+
+        // Dentro del método onCreate de la clase home
+        TextView textViewUserName = findViewById(R.id.textViewUserName);
+
+        // Obtener el nombre del usuario desde la instancia Usuario
+        String nombreUsuario = Usuario.getNombre(); // Asumiendo que existe un método getNombre en la clase Usuario
+
+        // Mostrar el nombre del usuario en el TextView
+        textViewUserName.setText("Bienvenido " + nombreUsuario);
     }
 }
 

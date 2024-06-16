@@ -1,5 +1,8 @@
 package com.example.servicio_limpieza;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public final class usuario {
     private int idUsuario;
     private String nombre;
@@ -10,6 +13,7 @@ public final class usuario {
     private String email;
     private String contrasena;
     private static usuario instancia;
+    private List<Propiedad> propiedades;
 
 
     // Constructor
@@ -28,6 +32,7 @@ public final class usuario {
         this.genero = genero;
         this.email = email;
         this.contrasena = contrasena;
+        this.propiedades = new ArrayList<>();
     }
 
     public static usuario getInstance(int idUsuario, String nombre, String apellido, String direccion, String telefono,
@@ -43,8 +48,6 @@ public final class usuario {
     public static void resetInstance() {
         instancia = null;
     }
-    // Getters y setters (opcional dependiendo de tus necesidades)
-    // Aquí podrías agregar métodos para obtener y establecer valores para cada campo.
 
 
     public int getId() {
@@ -53,5 +56,13 @@ public final class usuario {
 
     public String getNombre(){
         return nombre;
+    }
+
+    public void setPropiedades(List<Propiedad> propidades) {
+        this.propiedades = propiedades;
+    }
+
+    public void agregarPropiedad(Propiedad propiedad){
+        propiedades.add(propiedad);
     }
 }

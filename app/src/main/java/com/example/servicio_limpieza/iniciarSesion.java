@@ -17,6 +17,8 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 
 public class iniciarSesion extends AppCompatActivity {
@@ -102,6 +104,27 @@ public class iniciarSesion extends AppCompatActivity {
 
                     // Crear el objeto Usuario
                     Usuario = usuario.getInstance(id, nombre, apellido, direccion, telefono, genero, email, contrasena);
+
+                    // Cargar propiedades del usuario
+                    PreparedStatement propiedadesStmt = conn.prepareStatement("SELECT * FROM propiedades WHERE FK_propietario_ID = ?");
+                    propiedadesStmt.setInt(1, id);
+                    ResultSet propiedadesResultSet = propiedadesStmt.executeQuery();
+
+                    List<Propiedad> propiedades = new ArrayList<>();
+                    while (propiedadesResultSet.next()) {
+                        int propiedadId = propiedadesResultSet.getInt("PK_propiedad_ID");
+                        String propiedadNombre = propiedadesResultSet.getString("nombre");
+                        String propiedadBarrio = propiedadesResultSet.getString("barrio");
+                        String propiedadDireccion = propiedadesResultSet.getString("direccion");
+                        String propiedadEstado = propiedadesResultSet.getString("estado");
+                        int propiedadTamano = propiedadesResultSet.getInt("tamano");
+                        String propiedadTipo = propiedadesResultSet.getString("tipo");
+                        int propietarioId = propiedadesResultSet.getInt("FK_propietario_ID");
+
+                        Propiedad propiedad = new Propiedad(propiedadId, propiedadNombre, propiedadDireccion, propiedadBarrio, propiedadTamano, propiedadEstado, propiedadTipo, propietarioId);
+                        propiedades.add(propiedad);
+                    }
+                    Usuario.setPropiedades(propiedades);
                 }
             } catch (SQLException e) {
                 e.printStackTrace();

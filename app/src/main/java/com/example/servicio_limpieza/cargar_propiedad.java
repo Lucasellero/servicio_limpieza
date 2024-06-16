@@ -12,6 +12,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class cargar_propiedad extends AppCompatActivity {
@@ -115,9 +116,22 @@ public class cargar_propiedad extends AppCompatActivity {
 
                 int result = stmt.executeUpdate();
                 mensaje = result > 0 ? "Propiedad cargada exitosamente" : "Error al cargar la propiedad";
+
+                usuario Usuario = usuario.getInstance();
+                PreparedStatement propiedadesStmt = conn.prepareStatement("SELECT * FROM propiedades WHERE nombre = ? and direccion = ?");
+                propiedadesStmt.setString(1,String.valueOf(nombre));
+                propiedadesStmt.setString(2,String.valueOf(direccion));
+                ResultSet propiedadesResultSet = propiedadesStmt.executeQuery();
+
+                if(propiedadesResultSet.next()) {
+                    int propiedadId = propiedadesResultSet.getInt("PK_propiedad_ID");
+                    Propiedad propiedad = new Propiedad(propiedadId, nombre, direccion, barrio, tamano, estado, tipo, propietarioId);
+                    Usuario.agregarPropiedad(propiedad);
+                }
+
             } catch (SQLException e) {
-                //mensaje = "Error al cargar la propiedad. Por favor, inténtalo de nuevo.";
-                mensaje = nombre + barrio + direccion+ estado + tamano + tipo + propietarioId;
+                mensaje = "Error al cargar la propiedad. Por favor, inténtalo de nuevo.";
+                //mensaje = nombre + barrio + direccion+ estado + tamano + tipo + propietarioId;
                 Log.e("CargarPropiedadTask", "Error al ejecutar la consulta SQL", e);
             } catch (Exception e) {
                 mensaje = "Error inesperado. Por favor, inténtalo de nuevo.";

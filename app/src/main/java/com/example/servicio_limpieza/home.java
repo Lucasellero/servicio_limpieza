@@ -11,18 +11,33 @@ import com.example.servicio_limpieza.*;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class home extends AppCompatActivity {
 
     private BottomNavigationView bottomNavigationView;
+    private PropertyAdapter adapter;
+    private RecyclerView recyclerView;
+    private List<Propiedad> propiedades;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_home);
+
+        recyclerView = findViewById(R.id.recycler_view);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+
+        propiedades = new ArrayList<>();
+        adapter = new PropertyAdapter(propiedades);
+        recyclerView.setAdapter(adapter);
 
         Button btnCargarPropiedad = findViewById(R.id.btnCargarPropiedad);
         bottomNavigationView = findViewById(R.id.bottom_navigation); // Asegúrate de inicializar aquí

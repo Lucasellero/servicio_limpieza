@@ -1,0 +1,72 @@
+[33mcommit 40bfe7f3fd5e26a00c42a9f3499008103545e900[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mmaster[m[33m, [m[1;31morigin/master[m[33m)[m
+Author: Lucas Ellero <lellero@uade.edu.ar>
+Date:   Sat Jun 15 16:24:39 2024 -0300
+
+    Propiedad cargada
+
+[33mcommit 55784edb71aa8eaba6b31ab2a34ff766da3a5df7[m
+Author: Lucas Ellero <lellero@uade.edu.ar>
+Date:   Sat Jun 15 12:51:35 2024 -0300
+
+    No carga la propiedad a la base de datos
+
+[33mcommit e71941b7d571a4f572ec3c204f11202883ad3e69[m
+Author: Lucas Ellero <lellero@uade.edu.ar>
+Date:   Wed Jun 5 13:40:33 2024 -0300
+
+    Funciona hasta cargar propiedad, con el boton de navegabilidad
+
+[33mcommit 058e56914eed32a9203a814dc6bfa21bfe120fde[m
+Author: Lucas Ellero <lellero@uade.edu.ar>
+Date:   Wed Jun 5 12:40:59 2024 -0300
+
+    Funciona hasta cargar propiedad, pero sin el navagation button
+
+[33mcommit ed5cd485a7a2906c587fa4ed094cd79184b6b924[m
+Merge: efa4e16 d9337e0
+Author: Lucas Ellero <lellero@uade.edu.ar>
+Date:   Wed Jun 5 11:48:31 2024 -0300
+
+    Merge remote-tracking branch 'origin/master'
+    
+    # Conflicts:
+    #       .idea/vcs.xml
+
+[33mcommit d9337e0841523f571ffa4d595611aec3b5f220c4[m
+Merge: 5e85f1b f78d178
+Author: Lorenzo Ferrario <165429053+totossj2@users.noreply.github.com>
+Date:   Wed Jun 5 07:48:15 2024 -0700
+
+    Merge pull request #1 from Lucasellero/toto
+    
+    Toto
+
+[33mcommit efa4e16d289681cf6692683bad65d58c21268186[m
+Author: Lucas Ellero <lellero@uade.edu.ar>
+Date:   Wed Jun 5 11:47:55 2024 -0300
+
+    Primero
+
+[33mcommit f78d17852f08e3de734b3d52bbdd9c17767576fc[m[33m ([m[1;31morigin/toto[m[33m)[m
+Author: totossj2 <loferrario@uade.edu.ar>
+Date:   Wed Jun 5 11:35:56 2024 -0300
+
+    union lucas con carri
+
+[33mcommit ba893a075322459ce166a9e58773bd80b8dec669[m
+Author: totossj2 <loferrario@uade.edu.ar>
+Date:   Wed Jun 5 11:26:56 2024 -0300
+
+    sume lo de carri
+
+[33mcommit 5a4a020273744758fe95cd9261746dc2e3dc7ab5[m
+Author: totossj2 <loferrario@uade.edu.ar>
+Date:   Wed Jun 5 11:24:00 2024 -0300
+
+    sume lo de carri
+
+[33mcommit 5e85f1b89317d55f529e70ed8ffd7428165e1e4c[m
+Author: Lucas Ellero <lellero@uade.edu.ar>
+Date:   Wed Jun 5 08:44:45 2024 -0300
+
+    Initial commit

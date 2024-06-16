@@ -98,7 +98,7 @@ public class cargar_propiedad extends AppCompatActivity {
             PreparedStatement stmt = null;
 
             try {
-                conn = conexionBD();
+                conn = DatabaseConnection.getConnection();
                 if (conn == null) {
                     Log.e("CargarPropiedadTask", "No se pudo establecer conexión con la base de datos");
                     return "No se pudo establecer conexión con la base de datos";
@@ -157,16 +157,5 @@ public class cargar_propiedad extends AppCompatActivity {
             }
         }
     }
-
-    public Connection conexionBD() {
-        Connection conexion = null;
-        try {
-            Class.forName("net.sourceforge.jtds.jdbc.Driver");
-            String url = "jdbc:jtds:sqlserver://192.168.1.15:1433;databaseName=seminario;user=sa;password=1234";
-            conexion = DriverManager.getConnection(url);
-        } catch (Exception e) {
-            Log.e("conexionBD", "Error al establecer conexión con la base de datos", e);
-        }
-        return conexion;
-    }
 }
+

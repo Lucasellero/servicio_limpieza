@@ -1,11 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:padding="16dp">
+    android:background="#FFFFFF"
+    android:backgroundTint="#FFFFFF"
+    android:padding="0dp">
 
     <!-- Foto del perfil -->
+
     <ImageView
         android:id="@+id/profile_image"
         android:layout_width="120dp"
@@ -33,131 +36,92 @@
         android:layout_below="@id/sr_apellido_label"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="8dp"
-        android:text="Usuario Premium"
+        android:text="Usuario "
         android:textStyle="bold" />
 
     <!-- Separador -->
 
     <!-- Datos del perfil -->
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
 
-        android:layout_marginTop="279dp"
-        android:orientation="vertical">
-
-        <!-- Nombre -->
-
-        <!-- Separador -->
-
-        <!-- Fecha de nacimiento -->
-        <TextView
-            android:id="@+id/name_label"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="1dp"
-            android:text="Nombre: John Doe" />
-
-        <View
-            android:id="@+id/divider1"
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:layout_marginTop="16dp"
-            android:background="@android:color/darker_gray" />
-
-        <TextView
-            android:id="@+id/birth_date_label"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="1dp"
-            android:text="Fecha de nacimiento: 01/01/1990" />
-
-        <!-- Separador -->
-
-        <!-- Género -->
-        <View
-            android:id="@+id/divider2"
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:layout_marginTop="8dp"
-            android:layout_marginBottom="1dp"
-            android:background="@android:color/darker_gray" />
-
-        <TextView
-            android:id="@+id/gender_label"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="8dp"
-            android:text="Género: Masculino" />
-
-        <!-- Separador -->
-
-        <!-- Email -->
-        <View
-            android:id="@+id/divider3"
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:layout_marginTop="8dp"
-            android:layout_marginBottom="8dp"
-            android:background="@android:color/darker_gray" />
-
-        <TextView
-            android:id="@+id/email_label"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="8dp"
-            android:text="Email: john.doe@example.com" />
-
-        <!-- Separador -->
-
-        <!-- Número de teléfono -->
-        <View
-            android:id="@+id/divider4"
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:layout_marginTop="8dp"
-            android:layout_marginBottom="8dp"
-            android:background="@android:color/darker_gray" />
-
-        <TextView
-            android:id="@+id/phone_number_label"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="8dp"
-            android:text="Número de teléfono: +1234567890" />
-
-        <!-- Separador -->
-
-        <!-- Dirección -->
-        <View
-            android:id="@+id/divider5"
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:layout_marginTop="8dp"
-            android:layout_marginBottom="8dp"
-            android:background="@android:color/darker_gray" />
-
-        <TextView
-            android:id="@+id/address_label"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="8dp"
-            android:text="Dirección: 123 Main St, City, Country" />
-
-        <View
-            android:id="@+id/divider6"
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:layout_marginTop="8dp"
-            android:layout_marginBottom="8dp"
-            android:background="@android:color/darker_gray" />
-    </LinearLayout>
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/bottom_navigation"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
         android:layout_alignParentBottom="true"
-        android:layout_marginBottom="2dp"
+        android:layout_marginStart="0dp"
+        android:layout_marginBottom="0dp"
         app:menu="@menu/bottom_navigation_menu" />
+
+    <TextView
+        android:id="@+id/name"
+        android:layout_width="match_parent"
+        android:layout_height="30dp"
+        android:layout_below="@+id/premium_user_label"
+        android:layout_marginStart="18dp"
+        android:layout_alignParentEnd="true"
+        android:layout_marginTop="50dp"
+        android:layout_marginEnd="0dp"
+        android:text="Nombre: "
+        android:textSize="16sp" />
+
+    <TextView
+        android:id="@+id/surname"
+        android:layout_width="match_parent"
+        android:layout_height="30dp"
+        android:layout_below="@+id/name"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginStart="18dp"
+        android:layout_marginTop="30dp"
+        android:layout_marginEnd="0dp"
+        android:text="Apellido:"
+        android:textSize="16sp" />
+
+    <TextView
+        android:id="@+id/genero"
+        android:layout_width="match_parent"
+        android:layout_height="30dp"
+        android:layout_below="@+id/surname"
+        android:layout_marginStart="18dp"
+        android:layout_alignParentEnd="true"
+        android:layout_marginTop="30dp"
+        android:layout_marginEnd="0dp"
+        android:text="Direccion:"
+        android:textSize="16sp" />
+
+    <TextView
+        android:id="@+id/telefono"
+        android:layout_width="410dp"
+        android:layout_height="30dp"
+        android:layout_below="@+id/genero"
+        android:layout_alignParentEnd="true"
+        android:layout_marginStart="18dp"
+        android:layout_marginTop="30dp"
+        android:layout_marginEnd="0dp"
+        android:text="Telefono:"
+        android:textSize="16sp" />
+
+    <TextView
+        android:id="@+id/textView8"
+        android:layout_width="match_parent"
+        android:layout_height="30dp"
+        android:layout_below="@+id/telefono"
+        android:layout_marginStart="18dp"
+        android:layout_marginTop="30dp"
+        android:text="Genero:"
+        android:textSize="16sp" />
+
+    <TextView
+        android:id="@+id/membresia"
+        android:layout_width="410dp"
+        android:layout_height="30dp"
+        android:layout_below="@+id/textView8"
+        android:layout_alignParentEnd="true"
+        android:layout_marginStart="18dp"
+        android:layout_marginTop="30dp"
+        android:layout_marginEnd="0dp"
+        android:text="Membresia: "
+        android:textSize="16sp" />
 
 </RelativeLayout>

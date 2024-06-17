@@ -3,7 +3,30 @@
     <string-array name="genero_options">
         <item>Masculino</item>
         <item>Femenino</item>
-        <item>No binario</item>
         <!-- Agrega más opciones según necesites -->
     </string-array>
+
+    <string-array name="barrio_options">
+        <item>Palermo</item>
+        <item>Recoleta</item>
+        <item>Belgrano</item>
+        <item>Caballito</item>
+        <item>Villa Urquiza</item>
+        <item>San Telmo</item>
+        <item>Villa Crespo</item>
+        <item>Puerto Madero</item>
+        <item>Almagro</item>
+        <item>Boedo</item>
+        <item>San Nicolás</item>
+        <item>Montserrat</item>
+        <item>Flores</item>
+        <item>Retiro</item>
+        <item>Chacarita</item>
+        <item>Villa Devoto</item>
+        <item>Villa del Parque</item>
+        <item>Parque Patricios</item>
+        <item>La Boca</item>
+        <item>Barracas</item>
+    </string-array>
+
 </resources>

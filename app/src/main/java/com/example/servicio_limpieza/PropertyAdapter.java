@@ -1,8 +1,10 @@
 package com.example.servicio_limpieza;
 
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -12,10 +14,10 @@ import java.util.List;
 
 public class PropertyAdapter extends RecyclerView.Adapter<PropertyAdapter.PropertyViewHolder> {
 
-    private List<Propiedad> propertyList;
+    private List<Propiedad> propiedades;
 
-    public PropertyAdapter(List<Propiedad> propertyList) {
-        this.propertyList = propertyList;
+    public PropertyAdapter(List<Propiedad> propiedades) {
+        this.propiedades = propiedades;
     }
 
     @NonNull
@@ -27,21 +29,37 @@ public class PropertyAdapter extends RecyclerView.Adapter<PropertyAdapter.Proper
 
     @Override
     public void onBindViewHolder(@NonNull PropertyViewHolder holder, int position) {
-        Propiedad property = propertyList.get(position);
-        holder.propertyName.setText(property.getNombre());
+        Propiedad propiedad = propiedades.get(position);
+        holder.propertyName.setText(propiedad.getNombre());
+        holder.propertyAddress.setText(propiedad.getDireccion());
+
+        holder.btnReservarLimpieza.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Utiliza el contexto del itemView para iniciar la actividad
+                Intent intent = new Intent(v.getContext(), ReservarLimpiezaActivity.class);
+                intent.putExtra("propiedad_id", propiedad.getIdPropiedad());
+                v.getContext().startActivity(intent);
+            }
+        });
     }
 
     @Override
     public int getItemCount() {
-        return propertyList.size();
+        return propiedades.size();
     }
 
     public static class PropertyViewHolder extends RecyclerView.ViewHolder {
-        TextView propertyName;
 
-        public PropertyViewHolder(View itemView) {
+        public TextView propertyName;
+        public TextView propertyAddress;
+        public Button btnReservarLimpieza;
+
+        public PropertyViewHolder(@NonNull View itemView) {
             super(itemView);
             propertyName = itemView.findViewById(R.id.tv_property_name);
+            propertyAddress = itemView.findViewById(R.id.property_address);
+            btnReservarLimpieza = itemView.findViewById(R.id.btn_reservar_limpieza);
         }
     }
 }

@@ -5,8 +5,10 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Spinner;
 import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 import java.sql.Connection;
@@ -16,9 +18,9 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class cargar_propiedad extends AppCompatActivity {
-
+    Spinner spinnerBarrio;
     private EditText nameEditText;
-    private EditText cityEditText;
+    private Spinner barrioEditText;
     private EditText addressEditText;
     private EditText stateEditText;
     private EditText sizeEditText;
@@ -32,7 +34,7 @@ public class cargar_propiedad extends AppCompatActivity {
 
         // Inicializar vistas
         nameEditText = findViewById(R.id.name);
-        cityEditText = findViewById(R.id.city);
+        barrioEditText = findViewById(R.id.Barrio);
         addressEditText = findViewById(R.id.address);
         stateEditText = findViewById(R.id.state);
         sizeEditText = findViewById(R.id.size);
@@ -52,12 +54,20 @@ public class cargar_propiedad extends AppCompatActivity {
                 }
             }
         });
+
+        spinnerBarrio = findViewById(R.id.Barrio);
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
+                R.array.barrio_options, android.R.layout.simple_spinner_item);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinnerBarrio.setAdapter(adapter);
+
     }
+
 
     private boolean validateFields() {
         // Validar que todos los campos estén completos
         return !nameEditText.getText().toString().isEmpty() &&
-                !cityEditText.getText().toString().isEmpty() &&
+                !barrioEditText.getSelectedItem().toString().isEmpty() &&
                 !addressEditText.getText().toString().isEmpty() &&
                 !stateEditText.getText().toString().isEmpty() &&
                 !sizeEditText.getText().toString().isEmpty() &&
@@ -66,7 +76,7 @@ public class cargar_propiedad extends AppCompatActivity {
 
     private void cargarPropiedad() {
         String nombre = nameEditText.getText().toString();
-        String barrio = cityEditText.getText().toString();
+        String barrio = barrioEditText.getSelectedItem().toString();
         String direccion = addressEditText.getText().toString();
         String estado = stateEditText.getText().toString();
         int tamano = Integer.parseInt(sizeEditText.getText().toString());

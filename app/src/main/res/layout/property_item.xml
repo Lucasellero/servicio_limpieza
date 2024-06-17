@@ -13,4 +13,16 @@
         android:textSize="18sp"
         android:textStyle="bold"/>
 
+    <TextView
+        android:id="@+id/property_address"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Property Address" />
+
+    <Button
+        android:id="@+id/btn_reservar_limpieza"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Reservar limpieza" />
+
 </LinearLayout>

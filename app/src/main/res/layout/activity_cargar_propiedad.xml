@@ -20,7 +20,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/title"
-        android:layout_marginTop="23dp"
+        android:layout_marginTop="0dp"
         android:text="Cargar imagen"
         android:textSize="18sp" />
 
@@ -28,7 +28,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/upload_image_label"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="0dp"
         android:gravity="center"
         android:orientation="horizontal"
         android:paddingHorizontal="16dp">
@@ -68,11 +68,18 @@
             android:layout_height="48dp"
             android:hint="Nombre" />
 
-        <EditText
-            android:id="@+id/city"
+        <TextView
+            android:id="@+id/textView3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Barrio"
+            android:textSize="20sp" />
+
+        <Spinner
+            android:id="@+id/Barrio"
             android:layout_width="match_parent"
             android:layout_height="48dp"
-            android:hint="Barrio" />
+            android:spinnerMode="dropdown" />
 
         <EditText
             android:id="@+id/address"
@@ -134,4 +141,6 @@
         android:layout_alignParentBottom="true"
         android:layout_marginBottom="2dp"
         app:menu="@menu/bottom_navigation_menu" />
+
+
 </RelativeLayout>

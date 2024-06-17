@@ -50,5 +50,10 @@
             android:name=".perfil"
             android:theme="@style/Theme.Servicio_limpieza"
             android:exported="false" />
+
+        <activity
+            android:name=".ReservarLimpiezaActivity"
+            android:theme="@style/Theme.Servicio_limpieza"
+            android:exported="false" />
     </application>
 </manifest>

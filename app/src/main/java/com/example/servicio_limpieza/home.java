@@ -7,6 +7,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -40,7 +41,7 @@ public class home extends AppCompatActivity {
         recyclerView.setAdapter(adapter);
 
         Button btnCargarPropiedad = findViewById(R.id.btnCargarPropiedad);
-        bottomNavigationView = findViewById(R.id.bottom_navigation); // Asegúrate de inicializar aquí
+        bottomNavigationView = findViewById(R.id.bottom_navigation);
 
         btnCargarPropiedad.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -54,13 +55,11 @@ public class home extends AppCompatActivity {
         bottomNavigationView.setOnNavigationItemSelectedListener(item -> {
             int id = item.getItemId();
             if (id == R.id.navigation_profile) {
-                // Cambiar a la pantalla de perfil
                 Intent intent = new Intent(home.this, perfil.class);
                 intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
                 startActivity(intent);
                 return true;
             } else if (id == R.id.navigation_home) {
-                // Ya estamos en la actividad MainActivity, no hacer nada
                 return true;
             }
             return false;
@@ -68,13 +67,12 @@ public class home extends AppCompatActivity {
 
         usuario Usuario = usuario.getInstance();
 
-        // Establecer el ítem seleccionado en el BottomNavigationView
         bottomNavigationView.setSelectedItemId(R.id.navigation_home);
 
         // Mostrar el nombre del usuario en el TextView
         TextView textViewUserName = findViewById(R.id.textViewUserName);
-        String nombreUsuario = Usuario.getNombre(); // Asumiendo que existe un método getNombre en la clase Usuario
-        textViewUserName.setText("Bienvenido " + nombreUsuario);
+        String nombreUsuario = Usuario.getNombre();
+        textViewUserName.setText("Bienvenido, " + nombreUsuario);
 
         // Cargar propiedades desde la base de datos
         new LoadPropertiesTask().execute();

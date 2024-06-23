@@ -23,7 +23,7 @@
         android:id="@+id/btn_reservar_limpieza"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:backgroundTint="#005AB7"
+        android:backgroundTint="#2897ED"
         android:text="Reservar limpieza" />
 
 </LinearLayout>

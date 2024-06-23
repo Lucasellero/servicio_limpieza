@@ -64,6 +64,7 @@ public class ReservarLimpiezaActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 mostrarSeccionAzul();
+                btnConfirmarPago.setVisibility(View.VISIBLE);
             }
         });
 
@@ -73,6 +74,7 @@ public class ReservarLimpiezaActivity extends AppCompatActivity {
                 confirmarPago();
             }
         });
+        btnConfirmarPago.setVisibility(View.GONE);
     }
 
     private void mostrarCalendario() {

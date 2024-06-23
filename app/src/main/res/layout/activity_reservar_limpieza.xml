@@ -40,6 +40,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Confirmar"
+        android:backgroundTint="#005AB7"
         android:layout_marginTop="16dp" />
 
     <LinearLayout
@@ -71,6 +72,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Confirmar Pago"
-        android:layout_marginTop="16dp" />
+        android:layout_marginTop="16dp"
+        android:backgroundTint="#005AB7"
+        android:visibility="gone"/>
 
 </LinearLayout>

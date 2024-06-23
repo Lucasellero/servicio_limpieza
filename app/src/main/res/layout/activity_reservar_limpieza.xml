@@ -2,7 +2,6 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#FFFFFF"
-    android:backgroundTint="#FFFFFF"
     android:orientation="vertical"
     android:padding="16dp">
 
@@ -19,19 +18,11 @@
         android:layout_height="48dp"
         android:layout_marginTop="48dp"
         android:ems="10"
-        android:focusable="false"
-        android:clickable="true"
+        android:inputType="date"
         android:text="Fecha Inicio" />
 
-    <Button
-        android:id="@+id/buttonConfirmarFecha"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:text="Confirmar" />
-
     <TextView
-        android:id="@+id/textView4"
+        android:id="@+id/textViewModo"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="24dp"
@@ -44,51 +35,42 @@
         android:layout_height="48dp"
         android:spinnerMode="dropdown" />
 
-    <LinearLayout
-        android:id="@+id/layoutInfoReserva"
+    <Button
+        android:id="@+id/btnConfirmar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
-        android:background="#0000FF"
+        android:text="Confirmar"
+        android:layout_marginTop="16dp" />
+
+    <LinearLayout
+        android:id="@+id/layoutDetalles"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:padding="16dp"
-        android:visibility="gone">
+        android:visibility="gone"
+        android:background="#005AB7"
+        android:padding="16dp">
 
         <TextView
-            android:id="@+id/textViewEmpleado"
-            android:layout_width="wrap_content"
+            android:id="@+id/tvNombreEmpleado"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Nombre del empleado: "
-            android:textColor="#FFFFFF" />
+            android:textColor="#FFFFFF"
+            android:text="Nombre del empleado, Barrio" />
 
         <TextView
-            android:id="@+id/textViewCalificacion"
-            android:layout_width="wrap_content"
+            android:id="@+id/tvDuracionPrecio"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Calificación: "
-            android:textColor="#FFFFFF" />
-
-        <TextView
-            android:id="@+id/textViewDuracion"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Duración estimada: "
-            android:textColor="#FFFFFF" />
-
-        <TextView
-            android:id="@+id/textViewPrecio"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Precio estimado: "
-            android:textColor="#FFFFFF" />
+            android:textColor="#FFFFFF"
+            android:text="DuraciÃ³n estimada\nPrecio estimado" />
     </LinearLayout>
 
     <Button
-        android:id="@+id/buttonConfirmarPago"
-        android:layout_width="wrap_content"
+        android:id="@+id/btnConfirmarPago"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
         android:text="Confirmar Pago"
-        android:visibility="gone" />
-</LinearLayout>
+        android:layout_marginTop="16dp" />
 
+</LinearLayout>

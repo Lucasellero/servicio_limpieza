@@ -1,20 +1,17 @@
 package com.example.servicio_limpieza;
-
 import android.app.DatePickerDialog;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
-import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import androidx.appcompat.app.AppCompatActivity;
-
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -25,23 +22,29 @@ import java.util.Calendar;
 public class ReservarLimpiezaActivity extends AppCompatActivity {
 
     Spinner spinnerModo;
-    EditText editTextDate;
-    Button buttonConfirmarFecha, buttonConfirmarPago;
-    LinearLayout layoutInfoReserva;
-    TextView textViewEmpleado, textViewCalificacion, textViewDuracion, textViewPrecio;
+    TextView editTextDate;
+    Button btnConfirmar, btnConfirmarPago;
+    LinearLayout layoutDetalles;
+    TextView tvNombreEmpleado, tvDuracionPrecio;
     private int propiedadId;
     private String barrio;
+    private int duracionEstimada;
+    private int precioEstimado;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_reservar_limpieza);
 
+        editTextDate = findViewById(R.id.editTextDate);
+        btnConfirmar = findViewById(R.id.btnConfirmar);
+        btnConfirmarPago = findViewById(R.id.btnConfirmarPago);
+        layoutDetalles = findViewById(R.id.layoutDetalles);
+        tvNombreEmpleado = findViewById(R.id.tvNombreEmpleado);
+        tvDuracionPrecio = findViewById(R.id.tvDuracionPrecio);
+
         propiedadId = getIntent().getIntExtra("propiedad_id", -1);
-
         barrio = getIntent().getStringExtra("barrio");
-
-        new BuscarEmpleadoDisponibleTask().execute(propiedadId);
 
         spinnerModo = findViewById(R.id.Modo);
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
@@ -49,41 +52,22 @@ public class ReservarLimpiezaActivity extends AppCompatActivity {
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinnerModo.setAdapter(adapter);
 
-        editTextDate = findViewById(R.id.editTextDate);
-        buttonConfirmarFecha = findViewById(R.id.buttonConfirmarFecha);
-        layoutInfoReserva = findViewById(R.id.layoutInfoReserva);
-        textViewEmpleado = findViewById(R.id.textViewEmpleado);
-        textViewCalificacion = findViewById(R.id.textViewCalificacion);
-        textViewDuracion = findViewById(R.id.textViewDuracion);
-        textViewPrecio = findViewById(R.id.textViewPrecio);
-        buttonConfirmarPago = findViewById(R.id.buttonConfirmarPago);
-
+        // Configurar clic en el campo de texto de fecha para mostrar el calendario
         editTextDate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Calendar calendar = Calendar.getInstance();
-                int year = calendar.get(Calendar.YEAR);
-                int month = calendar.get(Calendar.MONTH);
-                int day = calendar.get(Calendar.DAY_OF_MONTH);
-
-                DatePickerDialog datePickerDialog = new DatePickerDialog(ReservarLimpiezaActivity.this, new DatePickerDialog.OnDateSetListener() {
-                    @Override
-                    public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
-                        editTextDate.setText(dayOfMonth + "/" + (month + 1) + "/" + year);
-                    }
-                }, year, month, day);
-                datePickerDialog.show();
+                mostrarCalendario();
             }
         });
 
-        buttonConfirmarFecha.setOnClickListener(new View.OnClickListener() {
+        btnConfirmar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mostrarInfoReserva();
+                mostrarSeccionAzul();
             }
         });
 
-        buttonConfirmarPago.setOnClickListener(new View.OnClickListener() {
+        btnConfirmarPago.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 confirmarPago();
@@ -91,17 +75,45 @@ public class ReservarLimpiezaActivity extends AppCompatActivity {
         });
     }
 
-    private void mostrarInfoReserva() {
-        layoutInfoReserva.setVisibility(View.VISIBLE);
-        buttonConfirmarPago.setVisibility(View.VISIBLE);
-        textViewEmpleado.setText("Nombre del empleado: Juan Pérez");
-        textViewCalificacion.setText("Calificación: 4.5");
-        textViewDuracion.setText("Duración estimada: 2 horas");
-        textViewPrecio.setText("Precio estimado: $50");
+    private void mostrarCalendario() {
+        // Obtener la fecha actual
+        Calendar calendar = Calendar.getInstance();
+        int year = calendar.get(Calendar.YEAR);
+        int month = calendar.get(Calendar.MONTH);
+        int dayOfMonth = calendar.get(Calendar.DAY_OF_MONTH);
+
+        // Mostrar el DatePickerDialog
+        DatePickerDialog datePickerDialog = new DatePickerDialog(ReservarLimpiezaActivity.this,
+                new DatePickerDialog.OnDateSetListener() {
+                    @Override
+                    public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
+                        // Actualizar el campo de texto con la fecha seleccionada
+                        editTextDate.setText(dayOfMonth + "/" + (monthOfYear + 1) + "/" + year);
+                    }
+                }, year, month, dayOfMonth);
+        datePickerDialog.show();
+    }
+
+    private void mostrarSeccionAzul() {
+        // Mostrar la sección azul con los detalles del empleado y cálculos
+        layoutDetalles.setVisibility(View.VISIBLE);
+        // Llamar al método para buscar empleado disponible y actualizar los detalles
+        new BuscarEmpleadoDisponibleTask().execute(propiedadId);
+    }
+
+    private void ocultarSeccionAzul() {
+        // Ocultar la sección azul
+        layoutDetalles.setVisibility(View.GONE);
     }
 
     private void confirmarPago() {
-        Toast.makeText(this, "Pago confirmado", Toast.LENGTH_SHORT).show();
+        // Ocultar la sección azul al confirmar el pago
+        ocultarSeccionAzul();
+
+        // Volver al home
+        Intent intent = new Intent(ReservarLimpiezaActivity.this, home.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP); // Limpiar todas las actividades anteriores
+        startActivity(intent);
     }
 
     private class BuscarEmpleadoDisponibleTask extends AsyncTask<Integer, Void, String> {
@@ -121,30 +133,32 @@ public class ReservarLimpiezaActivity extends AppCompatActivity {
                     return "No se pudo establecer conexión con la base de datos";
                 }
 
-                String sql2 = "SELECT barrio FROM propiedades WHERE PK_propiedad_ID = " + propiedadId;
-                ResultSet rs2 = null;
+                // Consulta para obtener el barrio de la propiedad
+                String sql2 = "Select barrio from propiedades where PK_propiedad_ID = ?";
                 stmt = conn.prepareStatement(sql2);
-                rs2 = stmt.executeQuery();
+                stmt.setInt(1, propiedadId);
+                ResultSet rs2 = stmt.executeQuery();
 
                 if (rs2.next()) {
                     nombreBarrio = rs2.getString("barrio");
                 }
 
+                // Consulta para obtener el empleado y el barrio asociado
                 String sql = "SELECT TOP 1 * FROM personal WHERE barrio = ? AND disponible = 1";
                 stmt = conn.prepareStatement(sql);
                 stmt.setString(1, nombreBarrio);
                 rs = stmt.executeQuery();
 
                 if (rs.next()) {
-                    int empleadoId;
-                    String nombreEmpleado;
-                    empleadoId = rs.getInt("PK_personal_ID");
-                    nombreEmpleado = rs.getString("nombre");
-                    barrio = rs.getString("barrio");
+                    int empleadoId = rs.getInt("PK_personal_ID");
+                    String nombreEmpleado = rs.getString("nombre");
+                    String barrio = rs.getString("barrio");
 
+                    // Actualizar el estado del empleado a ocupado si es necesario
                     actualizarEstadoEmpleado(conn, empleadoId, false);
 
-                    mensaje = "Empleado encontrado: " + nombreEmpleado + ", Barrio: " + barrio;
+                    // Mostrar los datos del empleado encontrado en la sección azul
+                    mostrarDatosEmpleado(nombreEmpleado);
                 }
             } catch (SQLException e) {
                 mensaje = "Error al buscar el empleado disponible. Por favor, inténtalo de nuevo.";
@@ -166,6 +180,130 @@ public class ReservarLimpiezaActivity extends AppCompatActivity {
         protected void onPostExecute(String result) {
             Toast.makeText(getApplicationContext(), result, Toast.LENGTH_SHORT).show();
         }
+    }
+
+    private void mostrarDatosEmpleado(String nombreEmpleado) {
+        tvNombreEmpleado.setText("Empleado: "+ nombreEmpleado);
+        calcularDuracionPrecio();
+    }
+
+    private void calcularDuracionPrecio() {
+        // Obtener el tamaño de la propiedad (ejemplo: tamaño en metros cuadrados)
+        int tamanoPropiedad = obtenerTamanoPropiedad(propiedadId);
+
+        // Obtener el modo de limpieza seleccionado
+        String modoLimpieza = spinnerModo.getSelectedItem().toString();
+
+        // Calcular la duración estimada en horas
+        if (modoLimpieza.equals("Regular")) {
+            if (tamanoPropiedad < 60) {
+                duracionEstimada = 2;
+            } else if (tamanoPropiedad < 90) {
+                duracionEstimada = 3;
+            } else if (tamanoPropiedad < 120) {
+                duracionEstimada = 4;
+            } else if (tamanoPropiedad < 160) {
+                duracionEstimada = 5;
+            } else if (tamanoPropiedad < 200) {
+                duracionEstimada = 6;
+            } else if (tamanoPropiedad < 400) {
+                duracionEstimada = 8;
+            } else {
+                // Ejemplo: si es mayor o igual a 400 metros cuadrados, duración de 10 horas
+                duracionEstimada = 10;
+            }
+        } else if (modoLimpieza.equals("Profundo")) {
+            if (tamanoPropiedad < 60) {
+                duracionEstimada = 2;
+            } else if (tamanoPropiedad < 90) {
+                duracionEstimada = 3;
+            } else if (tamanoPropiedad < 120) {
+                duracionEstimada = 4;
+            } else if (tamanoPropiedad < 160) {
+                duracionEstimada = 5;
+            } else if (tamanoPropiedad < 200) {
+                duracionEstimada = 6;
+            } else if (tamanoPropiedad < 400) {
+                duracionEstimada = 8;
+            } else {
+                // Ejemplo: si es mayor o igual a 400 metros cuadrados, duración de 10 horas
+                duracionEstimada = 10;
+            }
+            duracionEstimada = calcularDuracionModoProfundo(duracionEstimada);
+        } else if (modoLimpieza.equals("Express")) {
+            if (tamanoPropiedad < 60) {
+                duracionEstimada = 2;
+            } else if (tamanoPropiedad < 90) {
+                duracionEstimada = 3;
+            } else if (tamanoPropiedad < 120) {
+                duracionEstimada = 4;
+            } else if (tamanoPropiedad < 160) {
+                duracionEstimada = 5;
+            } else if (tamanoPropiedad < 200) {
+                duracionEstimada = 6;
+            } else if (tamanoPropiedad < 400) {
+                duracionEstimada = 8;
+            } else {
+                // Ejemplo: si es mayor o igual a 400 metros cuadrados, duración de 10 horas
+                duracionEstimada = 10;
+            }
+            duracionEstimada = calcularDuracionModoExpress(duracionEstimada);
+        }
+        // Calcular el precio estimado
+        precioEstimado = duracionEstimada * 15000;
+
+        // Mostrar la duración estimada y el precio estimado en el TextView correspondiente
+        tvDuracionPrecio.setText("Duracion estimada: " + duracionEstimada + " horas\nPrecio estimado: $" + precioEstimado);
+    }
+
+    private int obtenerTamanoPropiedad(int propiedadId) {
+        Connection conn = null;
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+        int tamanoPropiedad = 0;
+
+        try {
+            conn = conexionBD();
+            if (conn == null) {
+                // Manejo de error: no se pudo establecer conexión con la base de datos
+                return 0;
+            }
+
+            String sql = "SELECT tamano FROM propiedades WHERE PK_propiedad_ID = ?";
+            stmt = conn.prepareStatement(sql);
+            stmt.setInt(1, propiedadId);
+            rs = stmt.executeQuery();
+
+            if (rs.next()) {
+                tamanoPropiedad = rs.getInt("tamano");
+            }
+        } catch (SQLException e) {
+            // Manejo de errores SQL
+            e.printStackTrace();
+        } finally {
+            // Cerrar ResultSet, PreparedStatement y Connection en el bloque finally
+            try {
+                if (rs != null) rs.close();
+                if (stmt != null) stmt.close();
+                if (conn != null) conn.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+
+        return tamanoPropiedad;
+    }
+
+    private int calcularDuracionModoProfundo(int duracion) {
+        // Implementar la lógica para calcular la duración en modo Profundo
+        // Por ejemplo, podría ser el doble de la duración en modo Regular
+        return duracion * 2;
+    }
+
+    private int calcularDuracionModoExpress(int duracion) {
+        // Implementar la lógica para calcular la duración en modo Express
+        // Por ejemplo, podría ser la mitad de la duración en modo Regular
+        return duracion / 2;
     }
 
     private void actualizarEstadoEmpleado(Connection conn, int empleadoId, boolean disponible) throws SQLException {
@@ -193,5 +331,4 @@ public class ReservarLimpiezaActivity extends AppCompatActivity {
         return conexion;
     }
 }
-
 

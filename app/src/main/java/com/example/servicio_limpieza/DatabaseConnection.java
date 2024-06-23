@@ -11,7 +11,7 @@ public class DatabaseConnection {
         Connection conexion = null;
         try {
             Class.forName("net.sourceforge.jtds.jdbc.Driver");
-            String url = "jdbc:jtds:sqlserver://192.168.1.15:1433;databaseName=seminario;user=sa;password=1234";
+            String url = "jdbc:jtds:sqlserver://192.168.1.5:1433;databaseName=seminario;user=sa;password=1234";
             conexion = DriverManager.getConnection(url);
         } catch (ClassNotFoundException | SQLException e) {
             Log.e("DatabaseConnection", "Error al establecer conexión con la base de datos", e);

@@ -26,4 +26,11 @@
         <item>La Boca</item>
     </string-array>
 
+    <string-array name="Modo">
+        <item>Profunda</item>
+        <item>Regular</item>
+        <item>Rapida</item>
+    </string-array>
+
+
 </resources>

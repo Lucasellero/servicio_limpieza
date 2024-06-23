@@ -2,6 +2,8 @@ package com.example.servicio_limpieza;
 
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.widget.ArrayAdapter;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -14,6 +16,7 @@ import java.sql.SQLException;
 
 public class ReservarLimpiezaActivity extends AppCompatActivity {
 
+    Spinner spinnerModo;
     private int propiedadId;
     private String barrio;
 
@@ -33,6 +36,12 @@ public class ReservarLimpiezaActivity extends AppCompatActivity {
 
         // Iniciar la tarea para buscar el empleado disponible
         new BuscarEmpleadoDisponibleTask().execute(propiedadId);
+
+        spinnerModo = findViewById(R.id.Modo);
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
+                R.array.Modo, android.R.layout.simple_spinner_item);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinnerModo.setAdapter(adapter);
     }
 
     private class BuscarEmpleadoDisponibleTask extends AsyncTask<Integer, Void, String> {
@@ -118,7 +127,7 @@ public class ReservarLimpiezaActivity extends AppCompatActivity {
         Connection conexion = null;
         try {
             Class.forName("net.sourceforge.jtds.jdbc.Driver");
-            String url = "jdbc:jtds:sqlserver://192.168.1.15:1433;databaseName=seminario;user=sa;password=1234";
+            String url = "jdbc:jtds:sqlserver://192.168.1.5:1433;databaseName=seminario;user=sa;password=1234";
             conexion = DriverManager.getConnection(url);
         } catch (Exception e) {
             e.printStackTrace();

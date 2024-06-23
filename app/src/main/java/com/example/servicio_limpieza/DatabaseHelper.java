@@ -10,7 +10,7 @@ import java.sql.SQLException;
 
 public class DatabaseHelper {
     // Definir las credenciales de la base de datos
-    private static final String DB_URL = "jdbc:jtds:sqlserver://192.168.1.45:1433;databaseName=seminario";
+    private static final String DB_URL = "jdbc:jtds:sqlserver://192.168.1.5:1433;databaseName=seminario";
     private static final String USER = "sa";
     private static final String PASS = "1234";
 

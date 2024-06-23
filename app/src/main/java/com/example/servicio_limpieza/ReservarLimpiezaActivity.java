@@ -1,9 +1,16 @@
 package com.example.servicio_limpieza;
 
+import android.app.DatePickerDialog;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.DatePicker;
+import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -13,10 +20,15 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.Calendar;
 
 public class ReservarLimpiezaActivity extends AppCompatActivity {
 
     Spinner spinnerModo;
+    EditText editTextDate;
+    Button buttonConfirmarFecha, buttonConfirmarPago;
+    LinearLayout layoutInfoReserva;
+    TextView textViewEmpleado, textViewCalificacion, textViewDuracion, textViewPrecio;
     private int propiedadId;
     private String barrio;
 
@@ -27,14 +39,8 @@ public class ReservarLimpiezaActivity extends AppCompatActivity {
 
         propiedadId = getIntent().getIntExtra("propiedad_id", -1);
 
-        // Obtener el barrio de la propiedad a través de una consulta o de los extras del Intent
-        // Aquí debes agregar la lógica para obtener el barrio de la propiedad
-
-        // Por ejemplo, si pasas el barrio en el Intent:
         barrio = getIntent().getStringExtra("barrio");
 
-
-        // Iniciar la tarea para buscar el empleado disponible
         new BuscarEmpleadoDisponibleTask().execute(propiedadId);
 
         spinnerModo = findViewById(R.id.Modo);
@@ -42,6 +48,60 @@ public class ReservarLimpiezaActivity extends AppCompatActivity {
                 R.array.Modo, android.R.layout.simple_spinner_item);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinnerModo.setAdapter(adapter);
+
+        editTextDate = findViewById(R.id.editTextDate);
+        buttonConfirmarFecha = findViewById(R.id.buttonConfirmarFecha);
+        layoutInfoReserva = findViewById(R.id.layoutInfoReserva);
+        textViewEmpleado = findViewById(R.id.textViewEmpleado);
+        textViewCalificacion = findViewById(R.id.textViewCalificacion);
+        textViewDuracion = findViewById(R.id.textViewDuracion);
+        textViewPrecio = findViewById(R.id.textViewPrecio);
+        buttonConfirmarPago = findViewById(R.id.buttonConfirmarPago);
+
+        editTextDate.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Calendar calendar = Calendar.getInstance();
+                int year = calendar.get(Calendar.YEAR);
+                int month = calendar.get(Calendar.MONTH);
+                int day = calendar.get(Calendar.DAY_OF_MONTH);
+
+                DatePickerDialog datePickerDialog = new DatePickerDialog(ReservarLimpiezaActivity.this, new DatePickerDialog.OnDateSetListener() {
+                    @Override
+                    public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
+                        editTextDate.setText(dayOfMonth + "/" + (month + 1) + "/" + year);
+                    }
+                }, year, month, day);
+                datePickerDialog.show();
+            }
+        });
+
+        buttonConfirmarFecha.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mostrarInfoReserva();
+            }
+        });
+
+        buttonConfirmarPago.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                confirmarPago();
+            }
+        });
+    }
+
+    private void mostrarInfoReserva() {
+        layoutInfoReserva.setVisibility(View.VISIBLE);
+        buttonConfirmarPago.setVisibility(View.VISIBLE);
+        textViewEmpleado.setText("Nombre del empleado: Juan Pérez");
+        textViewCalificacion.setText("Calificación: 4.5");
+        textViewDuracion.setText("Duración estimada: 2 horas");
+        textViewPrecio.setText("Precio estimado: $50");
+    }
+
+    private void confirmarPago() {
+        Toast.makeText(this, "Pago confirmado", Toast.LENGTH_SHORT).show();
     }
 
     private class BuscarEmpleadoDisponibleTask extends AsyncTask<Integer, Void, String> {
@@ -61,7 +121,7 @@ public class ReservarLimpiezaActivity extends AppCompatActivity {
                     return "No se pudo establecer conexión con la base de datos";
                 }
 
-                String sql2 = "Select barrio from propiedades where PK_propiedad_ID = "+propiedadId;
+                String sql2 = "SELECT barrio FROM propiedades WHERE PK_propiedad_ID = " + propiedadId;
                 ResultSet rs2 = null;
                 stmt = conn.prepareStatement(sql2);
                 rs2 = stmt.executeQuery();
@@ -70,7 +130,6 @@ public class ReservarLimpiezaActivity extends AppCompatActivity {
                     nombreBarrio = rs2.getString("barrio");
                 }
 
-                // Consulta para obtener el empleado y el barrio asociado
                 String sql = "SELECT TOP 1 * FROM personal WHERE barrio = ? AND disponible = 1";
                 stmt = conn.prepareStatement(sql);
                 stmt.setString(1, nombreBarrio);
@@ -83,14 +142,13 @@ public class ReservarLimpiezaActivity extends AppCompatActivity {
                     nombreEmpleado = rs.getString("nombre");
                     barrio = rs.getString("barrio");
 
-                    // Actualizar el estado del empleado a ocupado si es necesario
                     actualizarEstadoEmpleado(conn, empleadoId, false);
 
                     mensaje = "Empleado encontrado: " + nombreEmpleado + ", Barrio: " + barrio;
                 }
-            } catch (SQLException e){
-                    mensaje = "Error al buscar el empleado disponible. Por favor, inténtalo de nuevo.";
-                    e.printStackTrace();
+            } catch (SQLException e) {
+                mensaje = "Error al buscar el empleado disponible. Por favor, inténtalo de nuevo.";
+                e.printStackTrace();
             } finally {
                 try {
                     if (rs != null) rs.close();
@@ -135,4 +193,5 @@ public class ReservarLimpiezaActivity extends AppCompatActivity {
         return conexion;
     }
 }
+
 

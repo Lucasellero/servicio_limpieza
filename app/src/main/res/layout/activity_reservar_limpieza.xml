@@ -19,8 +19,16 @@
         android:layout_height="48dp"
         android:layout_marginTop="48dp"
         android:ems="10"
-        android:inputType="date"
+        android:focusable="false"
+        android:clickable="true"
         android:text="Fecha Inicio" />
+
+    <Button
+        android:id="@+id/buttonConfirmarFecha"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="Confirmar" />
 
     <TextView
         android:id="@+id/textView4"
@@ -36,6 +44,51 @@
         android:layout_height="48dp"
         android:spinnerMode="dropdown" />
 
-    <!-- Aquí puedes añadir más elementos para manejar la reserva -->
+    <LinearLayout
+        android:id="@+id/layoutInfoReserva"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:background="#0000FF"
+        android:orientation="vertical"
+        android:padding="16dp"
+        android:visibility="gone">
 
+        <TextView
+            android:id="@+id/textViewEmpleado"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Nombre del empleado: "
+            android:textColor="#FFFFFF" />
+
+        <TextView
+            android:id="@+id/textViewCalificacion"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Calificación: "
+            android:textColor="#FFFFFF" />
+
+        <TextView
+            android:id="@+id/textViewDuracion"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Duración estimada: "
+            android:textColor="#FFFFFF" />
+
+        <TextView
+            android:id="@+id/textViewPrecio"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Precio estimado: "
+            android:textColor="#FFFFFF" />
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/buttonConfirmarPago"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="Confirmar Pago"
+        android:visibility="gone" />
 </LinearLayout>
+

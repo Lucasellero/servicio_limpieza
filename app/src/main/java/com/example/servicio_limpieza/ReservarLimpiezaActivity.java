@@ -122,7 +122,7 @@ public class ReservarLimpiezaActivity extends AppCompatActivity {
         @Override
         protected String doInBackground(Integer... params) {
             int propiedadId = params[0];
-            String mensaje = "No se encontró un empleado disponible.";
+            String mensaje = "¡Reserva de limpieza exitosa!";
 
             Connection conn = null;
             PreparedStatement stmt = null;
@@ -214,7 +214,7 @@ public class ReservarLimpiezaActivity extends AppCompatActivity {
                 // Ejemplo: si es mayor o igual a 400 metros cuadrados, duración de 10 horas
                 duracionEstimada = 10;
             }
-        } else if (modoLimpieza.equals("Profundo")) {
+        } else if (modoLimpieza.equals("Profunda")) {
             if (tamanoPropiedad < 60) {
                 duracionEstimada = 2;
             } else if (tamanoPropiedad < 90) {

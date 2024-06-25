@@ -57,13 +57,15 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textColor="#FFFFFF"
-            android:text="Nombre del empleado, Barrio" />
+            android:text="Nombre del empleado, Barrio"
+            android:textSize="18dp"/>
 
         <TextView
             android:id="@+id/tvDuracionPrecio"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textColor="#FFFFFF"
+            android:textSize="18dp"
             android:text="DuraciÃ³n estimada\nPrecio estimado" />
     </LinearLayout>
 

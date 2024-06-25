@@ -55,6 +55,7 @@
         android:backgroundTint="#2897ED"
         android:text="Cargar propiedad"
         android:textColor="#FFFFFF"
+        android:textSize="18dp"
         app:layout_constraintBottom_toTopOf="@+id/bottom_navigation"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />

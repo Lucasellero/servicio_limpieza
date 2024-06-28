@@ -7,7 +7,6 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -83,7 +82,7 @@ public class home extends AppCompatActivity {
         @Override
         protected List<Propiedad> doInBackground(Void... voids) {
             List<Propiedad> properties = new ArrayList<>();
-            try (Connection connection = DatabaseConnection.getConnection()) {
+            try (Connection connection = databaseConnection.getConnection()) {
                 usuario Usuario = usuario.getInstance();
                 String query = "SELECT * FROM propiedades WHERE FK_propietario_ID = ?";
                 PreparedStatement statement = connection.prepareStatement(query);

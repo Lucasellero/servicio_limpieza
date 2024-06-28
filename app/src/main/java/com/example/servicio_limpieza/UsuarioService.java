@@ -1,12 +1,10 @@
 package com.example.servicio_limpieza;
 
-import com.example.servicio_limpieza.DatabaseHelper;
-
 public class UsuarioService {
-    private DatabaseHelper databaseHelper;
+    private com.example.servicio_limpieza.databaseHelper databaseHelper;
 
     public UsuarioService() {
-        this.databaseHelper = new DatabaseHelper();
+        this.databaseHelper = new databaseHelper();
     }
 
     public usuario login(String email, String contraseña) {

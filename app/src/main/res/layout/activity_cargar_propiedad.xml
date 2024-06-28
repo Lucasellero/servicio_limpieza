@@ -3,8 +3,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#FFFFFF"
-    android:backgroundTint="#FFFFFF"
     tools:context=".cargar_propiedad">
 
     <TextView
@@ -36,22 +34,22 @@
         android:paddingHorizontal="16dp">
 
         <ImageView
-            android:layout_width="179dp"
-            android:layout_height="155dp"
+            android:layout_width="151dp"
+            android:layout_height="122dp"
             android:layout_marginEnd="16dp"
             android:contentDescription="Image placeholder"
             android:src="@drawable/imagen_propiedad_3" />
 
         <ImageView
-            android:layout_width="148dp"
-            android:layout_height="137dp"
+            android:layout_width="121dp"
+            android:layout_height="101dp"
             android:layout_marginEnd="16dp"
             android:contentDescription="Image placeholder"
             android:src="@drawable/imagen_propiedad_1" />
 
         <ImageView
-            android:layout_width="148dp"
-            android:layout_height="137dp"
+            android:layout_width="121dp"
+            android:layout_height="101dp"
             android:contentDescription="Image placeholder"
             android:src="@drawable/imagen_propiedad_2" />
     </LinearLayout>
@@ -89,11 +87,18 @@
             android:layout_height="48dp"
             android:hint="Dirección" />
 
-        <EditText
-            android:id="@+id/state"
+        <TextView
+            android:id="@+id/textView4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Estado"
+            android:textSize="20sp" />
+
+        <Spinner
+            android:id="@+id/spinnerEstado"
             android:layout_width="match_parent"
             android:layout_height="48dp"
-            android:hint="Estado" />
+            android:spinnerMode="dropdown" />
 
         <EditText
             android:id="@+id/size"
@@ -101,11 +106,19 @@
             android:layout_height="48dp"
             android:hint="Tamaño" />
 
-        <EditText
-            android:id="@+id/type"
+        <TextView
+            android:id="@+id/textView5"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Tipo"
+            android:textSize="20sp" />
+
+        <Spinner
+            android:id="@+id/spinnerTipo"
             android:layout_width="match_parent"
             android:layout_height="48dp"
-            android:hint="Tipo" />
+            android:spinnerMode="dropdown" />
+
     </LinearLayout>
 
     <LinearLayout
@@ -143,6 +156,5 @@
         android:layout_alignParentBottom="true"
         android:layout_marginBottom="2dp"
         app:menu="@menu/bottom_navigation_menu" />
-
 
 </RelativeLayout>

@@ -32,12 +32,12 @@
         <item>Express</item>
     </string-array>
 
-    <string-array name="estado_array">
+    <string-array name="estado_options">
         <item>Disponible</item>
         <item>Ocupado</item>
     </string-array>
 
-    <string-array name="tipo_array">
+    <string-array name="tipo_options">
         <item>Casa</item>
         <item>Departamento</item>
         <item>Oficina</item>

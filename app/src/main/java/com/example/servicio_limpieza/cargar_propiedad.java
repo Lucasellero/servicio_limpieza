@@ -12,22 +12,15 @@ import android.widget.Spinner;
 import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class cargar_propiedad extends AppCompatActivity {
-    Spinner spinnerBarrio;
-
-    Spinner spinnerEstado;
-    Spinner spinnerTipo;
+    Spinner spinnerBarrio, spinnerEstado, spinnerTipo;
     private EditText nameEditText;
-    private Spinner barrioEditText;
     private EditText addressEditText;
-    private EditText stateEditText;
     private EditText sizeEditText;
-    private EditText typeEditText;
     private Button acceptButton;
 
     @Override
@@ -37,12 +30,28 @@ public class cargar_propiedad extends AppCompatActivity {
 
         // Inicializar vistas
         nameEditText = findViewById(R.id.name);
-        barrioEditText = findViewById(R.id.Barrio);
+        spinnerBarrio = findViewById(R.id.Barrio);
         addressEditText = findViewById(R.id.address);
-        stateEditText = findViewById(R.id.state);
+        spinnerEstado = findViewById(R.id.spinnerEstado);
         sizeEditText = findViewById(R.id.size);
-        typeEditText = findViewById(R.id.type);
+        spinnerTipo = findViewById(R.id.spinnerTipo);
         acceptButton = findViewById(R.id.accept_button);
+
+        // Configurar adaptadores para los spinners
+        ArrayAdapter<CharSequence> barrioAdapter = ArrayAdapter.createFromResource(this,
+                R.array.barrio_options, android.R.layout.simple_spinner_item);
+        barrioAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinnerBarrio.setAdapter(barrioAdapter);
+
+        ArrayAdapter<CharSequence> estadoAdapter = ArrayAdapter.createFromResource(this,
+                R.array.estado_options, android.R.layout.simple_spinner_item);
+        estadoAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinnerEstado.setAdapter(estadoAdapter);
+
+        ArrayAdapter<CharSequence> tipoAdapter = ArrayAdapter.createFromResource(this,
+                R.array.tipo_options, android.R.layout.simple_spinner_item);
+        tipoAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinnerTipo.setAdapter(tipoAdapter);
 
         // Configurar el Listener para el botón de aceptar
         acceptButton.setOnClickListener(new View.OnClickListener() {
@@ -58,32 +67,34 @@ public class cargar_propiedad extends AppCompatActivity {
             }
         });
 
-        spinnerBarrio = findViewById(R.id.Barrio);
-        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
-                R.array.barrio_options, android.R.layout.simple_spinner_item);
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        spinnerBarrio.setAdapter(adapter);
-
+        Button cancelButton = findViewById(R.id.cancel_button);
+        cancelButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(cargar_propiedad.this, home.class);
+                startActivity(intent);
+                finish();
+            }
+        });
     }
-
 
     private boolean validateFields() {
         // Validar que todos los campos estén completos
         return !nameEditText.getText().toString().isEmpty() &&
-                !barrioEditText.getSelectedItem().toString().isEmpty() &&
+                !spinnerBarrio.getSelectedItem().toString().isEmpty() &&
                 !addressEditText.getText().toString().isEmpty() &&
-                !stateEditText.getText().toString().isEmpty() &&
+                !spinnerEstado.getSelectedItem().toString().isEmpty() &&
                 !sizeEditText.getText().toString().isEmpty() &&
-                !typeEditText.getText().toString().isEmpty();
+                !spinnerTipo.getSelectedItem().toString().isEmpty();
     }
 
     private void cargarPropiedad() {
         String nombre = nameEditText.getText().toString();
-        String barrio = barrioEditText.getSelectedItem().toString();
+        String barrio = spinnerBarrio.getSelectedItem().toString();
         String direccion = addressEditText.getText().toString();
-        String estado = stateEditText.getText().toString();
+        String estado = spinnerEstado.getSelectedItem().toString();
         int tamano = Integer.parseInt(sizeEditText.getText().toString());
-        String tipo = typeEditText.getText().toString();
+        String tipo = spinnerTipo.getSelectedItem().toString();
 
         // Obtener el ID del usuario en sesión
         usuario Usuario = usuario.getInstance();
@@ -111,7 +122,7 @@ public class cargar_propiedad extends AppCompatActivity {
             PreparedStatement stmt = null;
 
             try {
-                conn = DatabaseConnection.getConnection();
+                conn = databaseConnection.getConnection();
                 if (conn == null) {
                     Log.e("CargarPropiedadTask", "No se pudo establecer conexión con la base de datos");
                     return "No se pudo establecer conexión con la base de datos";
@@ -119,24 +130,24 @@ public class cargar_propiedad extends AppCompatActivity {
 
                 String sql = "INSERT INTO propiedades (nombre, barrio, direccion, estado, tamano, tipo, FK_propietario_ID) VALUES (?, ?, ?, ?, ?, ?, ?)";
                 stmt = conn.prepareStatement(sql);
-                stmt.setString(1, String.valueOf(nombre));
-                stmt.setString(2, String.valueOf(barrio));
-                stmt.setString(3, String.valueOf(direccion));
-                stmt.setString(4, String.valueOf(estado));
-                stmt.setInt(5, Integer.parseInt(String.valueOf(tamano)));
-                stmt.setString(6, String.valueOf(tipo));
-                stmt.setInt(7, Integer.parseInt(String.valueOf(propietarioId)));
+                stmt.setString(1, nombre);
+                stmt.setString(2, barrio);
+                stmt.setString(3, direccion);
+                stmt.setString(4, estado);
+                stmt.setInt(5, tamano);
+                stmt.setString(6, tipo);
+                stmt.setInt(7, propietarioId);
 
                 int result = stmt.executeUpdate();
                 mensaje = result > 0 ? "Propiedad cargada exitosamente" : "Error al cargar la propiedad";
 
                 usuario Usuario = usuario.getInstance();
                 PreparedStatement propiedadesStmt = conn.prepareStatement("SELECT * FROM propiedades WHERE nombre = ? and direccion = ?");
-                propiedadesStmt.setString(1,String.valueOf(nombre));
-                propiedadesStmt.setString(2,String.valueOf(direccion));
+                propiedadesStmt.setString(1, nombre);
+                propiedadesStmt.setString(2, direccion);
                 ResultSet propiedadesResultSet = propiedadesStmt.executeQuery();
 
-                if(propiedadesResultSet.next()) {
+                if (propiedadesResultSet.next()) {
                     int propiedadId = propiedadesResultSet.getInt("PK_propiedad_ID");
                     Propiedad propiedad = new Propiedad(propiedadId, nombre, direccion, barrio, tamano, estado, tipo, propietarioId);
                     Usuario.agregarPropiedad(propiedad);
@@ -144,7 +155,6 @@ public class cargar_propiedad extends AppCompatActivity {
 
             } catch (SQLException e) {
                 mensaje = "Error al cargar la propiedad. Por favor, inténtalo de nuevo.";
-                //mensaje = nombre + barrio + direccion+ estado + tamano + tipo + propietarioId;
                 Log.e("CargarPropiedadTask", "Error al ejecutar la consulta SQL", e);
             } catch (Exception e) {
                 mensaje = "Error inesperado. Por favor, inténtalo de nuevo.";

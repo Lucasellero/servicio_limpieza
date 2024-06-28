@@ -23,13 +23,15 @@ public class reservarLimpieza extends AppCompatActivity {
 
     Spinner spinnerModo;
     TextView editTextDate;
-    Button btnConfirmar, btnConfirmarPago;
+    Button btnConfirmar, btnConfirmarPago, btnCancelar;
     LinearLayout layoutDetalles;
     TextView tvNombreEmpleado, tvDuracionPrecio;
     private int propiedadId;
     private String barrio;
     private int duracionEstimada;
     private int precioEstimado;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,6 +40,7 @@ public class reservarLimpieza extends AppCompatActivity {
 
         editTextDate = findViewById(R.id.editTextDate);
         btnConfirmar = findViewById(R.id.btnConfirmar);
+        btnCancelar = findViewById(R.id.btnCancelar);
         btnConfirmarPago = findViewById(R.id.btnConfirmarPago);
         layoutDetalles = findViewById(R.id.layoutDetalles);
         tvNombreEmpleado = findViewById(R.id.tvNombreEmpleado);
@@ -60,11 +63,19 @@ public class reservarLimpieza extends AppCompatActivity {
             }
         });
 
+        btnCancelar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                cancelarReserva();
+            }
+        });
+
         btnConfirmar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 mostrarSeccionAzul();
                 btnConfirmarPago.setVisibility(View.VISIBLE);
+                btnCancelar.setVisibility(View.GONE);
             }
         });
 
@@ -112,6 +123,13 @@ public class reservarLimpieza extends AppCompatActivity {
         // Ocultar la sección azul al confirmar el pago
         ocultarSeccionAzul();
 
+        // Volver al home
+        Intent intent = new Intent(reservarLimpieza.this, home.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP); // Limpiar todas las actividades anteriores
+        startActivity(intent);
+    }
+
+    private void cancelarReserva() {
         // Volver al home
         Intent intent = new Intent(reservarLimpieza.this, home.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP); // Limpiar todas las actividades anteriores

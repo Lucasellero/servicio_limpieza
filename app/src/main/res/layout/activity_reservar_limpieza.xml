@@ -43,6 +43,14 @@
         android:backgroundTint="#005AB7"
         android:layout_marginTop="16dp" />
 
+    <Button
+        android:id="@+id/btnCancelar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Cancelar"
+        android:backgroundTint="#2897ED"
+        android:layout_marginTop="16dp" />
+
     <LinearLayout
         android:id="@+id/layoutDetalles"
         android:layout_width="match_parent"
@@ -66,7 +74,7 @@
             android:layout_height="wrap_content"
             android:textColor="#FFFFFF"
             android:textSize="18dp"
-            android:text="DuraciÃ³n estimada\nPrecio estimado" />
+            android:text="Duración estimada\nPrecio estimado" />
     </LinearLayout>
 
     <Button
@@ -79,3 +87,4 @@
         android:visibility="gone"/>
 
 </LinearLayout>
+

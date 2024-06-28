@@ -3,6 +3,8 @@ package com.example.servicio_limpieza;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -36,6 +38,16 @@ public class perfil extends AppCompatActivity {
 
         // Establecer el ítem seleccionado en el BottomNavigationView
         bottomNavigationView.setSelectedItemId(R.id.navigation_profile);
+
+        // Configurar el botón de Cerrar sesión
+        Button btnLogout = findViewById(R.id.btn_logout);
+        btnLogout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Cerrar la aplicación
+                finishAffinity();
+                System.exit(0);
+            }
+        });
     }
 }
-

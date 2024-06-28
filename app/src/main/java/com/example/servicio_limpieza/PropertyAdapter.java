@@ -32,6 +32,7 @@ public class PropertyAdapter extends RecyclerView.Adapter<PropertyAdapter.Proper
         Propiedad propiedad = propiedades.get(position);
         holder.propertyName.setText(propiedad.getNombre());
         holder.propertyAddress.setText(propiedad.getDireccion());
+        holder.propertyState.setText(propiedad.getEstado());
 
         holder.btnReservarLimpieza.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -53,12 +54,14 @@ public class PropertyAdapter extends RecyclerView.Adapter<PropertyAdapter.Proper
 
         public TextView propertyName;
         public TextView propertyAddress;
+        public TextView propertyState;
         public Button btnReservarLimpieza;
 
         public PropertyViewHolder(@NonNull View itemView) {
             super(itemView);
             propertyName = itemView.findViewById(R.id.tv_property_name);
             propertyAddress = itemView.findViewById(R.id.property_address);
+            propertyState = itemView.findViewById(R.id.property_state);
             btnReservarLimpieza = itemView.findViewById(R.id.btn_reservar_limpieza);
         }
     }

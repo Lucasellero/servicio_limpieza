@@ -32,5 +32,15 @@
         <item>Express</item>
     </string-array>
 
+    <string-array name="estado_array">
+        <item>Disponible</item>
+        <item>Ocupado</item>
+    </string-array>
+
+    <string-array name="tipo_array">
+        <item>Casa</item>
+        <item>Departamento</item>
+        <item>Oficina</item>
+    </string-array>
 
 </resources>

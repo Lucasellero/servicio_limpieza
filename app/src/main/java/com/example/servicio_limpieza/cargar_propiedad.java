@@ -19,6 +19,9 @@ import java.sql.SQLException;
 
 public class cargar_propiedad extends AppCompatActivity {
     Spinner spinnerBarrio;
+
+    Spinner spinnerEstado;
+    Spinner spinnerTipo;
     private EditText nameEditText;
     private Spinner barrioEditText;
     private EditText addressEditText;

@@ -110,7 +110,7 @@ public class iniciarSesion extends AppCompatActivity {
                     propiedadesStmt.setInt(1, id);
                     ResultSet propiedadesResultSet = propiedadesStmt.executeQuery();
 
-                    List<Propiedad> propiedades = new ArrayList<>();
+                    List<propiedad> propiedades = new ArrayList<>();
                     while (propiedadesResultSet.next()) {
                         int propiedadId = propiedadesResultSet.getInt("PK_propiedad_ID");
                         String propiedadNombre = propiedadesResultSet.getString("nombre");
@@ -121,7 +121,7 @@ public class iniciarSesion extends AppCompatActivity {
                         String propiedadTipo = propiedadesResultSet.getString("tipo");
                         int propietarioId = propiedadesResultSet.getInt("FK_propietario_ID");
 
-                        Propiedad propiedad = new Propiedad(propiedadId, propiedadNombre, propiedadDireccion, propiedadBarrio, propiedadTamano, propiedadEstado, propiedadTipo, propietarioId);
+                        propiedad propiedad = new propiedad(propiedadId, propiedadNombre, propiedadDireccion, propiedadBarrio, propiedadTamano, propiedadEstado, propiedadTipo, propietarioId);
                         propiedades.add(propiedad);
                     }
                     Usuario.setPropiedades(propiedades);

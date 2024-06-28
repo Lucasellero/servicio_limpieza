@@ -47,7 +47,7 @@
         android:layout_height="30dp"
         android:layout_below="@+id/premium_user_label"
         android:layout_marginStart="18dp"
-        android:layout_marginTop="30dp"
+        android:layout_marginTop="15dp"
         android:text="Nombre: Lorenzo"
         android:textSize="16sp" />
 
@@ -108,12 +108,12 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/membresia"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="5dp"
-        android:text="Cerrar sesión"
+        android:layout_marginTop="15dp"
         android:backgroundTint="#005AB8"
-        android:textColor="#FFFFFF"
+        android:elevation="4dp"
         android:padding="12dp"
-        android:elevation="4dp" />
+        android:text="Cerrar sesión"
+        android:textColor="#FFFFFF" />
 
     <!-- Bottom Navigation -->
     <com.google.android.material.bottomnavigation.BottomNavigationView
@@ -121,6 +121,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
+        android:backgroundTint="#FFFFFF"
         app:menu="@menu/bottom_navigation_menu"
         app:labelVisibilityMode="labeled" />
 </RelativeLayout>

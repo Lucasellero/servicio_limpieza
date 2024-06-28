@@ -52,7 +52,7 @@
             android:exported="false" />
 
         <activity
-            android:name=".ReservarLimpiezaActivity"
+            android:name=".reservarLimpieza"
             android:theme="@style/Theme.Servicio_limpieza"
             android:exported="false" />
     </application>

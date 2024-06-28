@@ -23,9 +23,9 @@ import java.util.List;
 public class home extends AppCompatActivity {
 
     private BottomNavigationView bottomNavigationView;
-    private PropertyAdapter adapter;
+    private propertyAdapter adapter;
     private RecyclerView recyclerView;
-    private List<Propiedad> propiedades;
+    private List<propiedad> propiedades;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,7 +36,7 @@ public class home extends AppCompatActivity {
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
         propiedades = new ArrayList<>();
-        adapter = new PropertyAdapter(propiedades);
+        adapter = new propertyAdapter(propiedades);
         recyclerView.setAdapter(adapter);
 
         Button btnCargarPropiedad = findViewById(R.id.btnCargarPropiedad);
@@ -77,11 +77,11 @@ public class home extends AppCompatActivity {
         new LoadPropertiesTask().execute();
     }
 
-    private class LoadPropertiesTask extends AsyncTask<Void, Void, List<Propiedad>> {
+    private class LoadPropertiesTask extends AsyncTask<Void, Void, List<propiedad>> {
 
         @Override
-        protected List<Propiedad> doInBackground(Void... voids) {
-            List<Propiedad> properties = new ArrayList<>();
+        protected List<propiedad> doInBackground(Void... voids) {
+            List<propiedad> properties = new ArrayList<>();
             try (Connection connection = databaseConnection.getConnection()) {
                 usuario Usuario = usuario.getInstance();
                 String query = "SELECT * FROM propiedades WHERE FK_propietario_ID = ?";
@@ -97,7 +97,7 @@ public class home extends AppCompatActivity {
                     int tamano = resultSet.getInt("tamano");
                     String tipo = resultSet.getString("tipo");
                     int propietarioId = resultSet.getInt("FK_propietario_ID");
-                    properties.add(new Propiedad(id, nombre, direccion, barrio, tamano, estado, tipo, propietarioId));
+                    properties.add(new propiedad(id, nombre, direccion, barrio, tamano, estado, tipo, propietarioId));
                 }
             } catch (SQLException e) {
                 e.printStackTrace();
@@ -106,7 +106,7 @@ public class home extends AppCompatActivity {
         }
 
         @Override
-        protected void onPostExecute(List<Propiedad> properties) {
+        protected void onPostExecute(List<propiedad> properties) {
             propiedades.clear();
             propiedades.addAll(properties);
             adapter.notifyDataSetChanged();

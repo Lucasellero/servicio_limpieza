@@ -149,7 +149,7 @@ public class cargar_propiedad extends AppCompatActivity {
 
                 if (propiedadesResultSet.next()) {
                     int propiedadId = propiedadesResultSet.getInt("PK_propiedad_ID");
-                    Propiedad propiedad = new Propiedad(propiedadId, nombre, direccion, barrio, tamano, estado, tipo, propietarioId);
+                    propiedad propiedad = new propiedad(propiedadId, nombre, direccion, barrio, tamano, estado, tipo, propietarioId);
                     Usuario.agregarPropiedad(propiedad);
                 }
 

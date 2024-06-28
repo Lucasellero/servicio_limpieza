@@ -19,7 +19,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Calendar;
 
-public class ReservarLimpiezaActivity extends AppCompatActivity {
+public class reservarLimpieza extends AppCompatActivity {
 
     Spinner spinnerModo;
     TextView editTextDate;
@@ -85,7 +85,7 @@ public class ReservarLimpiezaActivity extends AppCompatActivity {
         int dayOfMonth = calendar.get(Calendar.DAY_OF_MONTH);
 
         // Mostrar el DatePickerDialog
-        DatePickerDialog datePickerDialog = new DatePickerDialog(ReservarLimpiezaActivity.this,
+        DatePickerDialog datePickerDialog = new DatePickerDialog(reservarLimpieza.this,
                 new DatePickerDialog.OnDateSetListener() {
                     @Override
                     public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
@@ -113,7 +113,7 @@ public class ReservarLimpiezaActivity extends AppCompatActivity {
         ocultarSeccionAzul();
 
         // Volver al home
-        Intent intent = new Intent(ReservarLimpiezaActivity.this, home.class);
+        Intent intent = new Intent(reservarLimpieza.this, home.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP); // Limpiar todas las actividades anteriores
         startActivity(intent);
     }

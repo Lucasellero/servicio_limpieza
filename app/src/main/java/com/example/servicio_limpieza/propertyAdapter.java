@@ -12,11 +12,11 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.List;
 
-public class PropertyAdapter extends RecyclerView.Adapter<PropertyAdapter.PropertyViewHolder> {
+public class propertyAdapter extends RecyclerView.Adapter<propertyAdapter.PropertyViewHolder> {
 
-    private List<Propiedad> propiedades;
+    private List<propiedad> propiedades;
 
-    public PropertyAdapter(List<Propiedad> propiedades) {
+    public propertyAdapter(List<propiedad> propiedades) {
         this.propiedades = propiedades;
     }
 
@@ -29,7 +29,7 @@ public class PropertyAdapter extends RecyclerView.Adapter<PropertyAdapter.Proper
 
     @Override
     public void onBindViewHolder(@NonNull PropertyViewHolder holder, int position) {
-        Propiedad propiedad = propiedades.get(position);
+        propiedad propiedad = propiedades.get(position);
         holder.propertyName.setText(propiedad.getNombre());
         holder.propertyAddress.setText(propiedad.getDireccion());
         holder.propertyState.setText(propiedad.getEstado());
@@ -38,7 +38,7 @@ public class PropertyAdapter extends RecyclerView.Adapter<PropertyAdapter.Proper
             @Override
             public void onClick(View v) {
                 // Utiliza el contexto del itemView para iniciar la actividad
-                Intent intent = new Intent(v.getContext(), ReservarLimpiezaActivity.class);
+                Intent intent = new Intent(v.getContext(), reservarLimpieza.class);
                 intent.putExtra("propiedad_id", propiedad.getIdPropiedad());
                 v.getContext().startActivity(intent);
             }

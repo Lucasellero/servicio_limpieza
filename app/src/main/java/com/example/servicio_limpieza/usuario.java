@@ -13,7 +13,7 @@ public final class usuario {
     private String email;
     private String contrasena;
     private static usuario instancia;
-    private List<Propiedad> propiedades;
+    private List<propiedad> propiedades;
 
 
     // Constructor
@@ -58,11 +58,11 @@ public final class usuario {
         return nombre;
     }
 
-    public void setPropiedades(List<Propiedad> propidades) {
+    public void setPropiedades(List<propiedad> propidades) {
         this.propiedades = propiedades;
     }
 
-    public void agregarPropiedad(Propiedad propiedad){
+    public void agregarPropiedad(propiedad propiedad){
         propiedades.add(propiedad);
     }
 }

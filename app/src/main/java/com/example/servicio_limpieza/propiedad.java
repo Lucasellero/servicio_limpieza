@@ -1,6 +1,6 @@
 package com.example.servicio_limpieza;
 
-public class Propiedad {
+public class propiedad {
     private int idPropiedad;
     private String nombre;
     private String direccion;
@@ -10,7 +10,7 @@ public class Propiedad {
     private String tipo;
     private int idPropietario;
 
-    public Propiedad(int idPropiedad, String nombre, String direccion, String barrio, int tamano,
+    public propiedad(int idPropiedad, String nombre, String direccion, String barrio, int tamano,
                      String estado, String tipo, int idPropietario){
         this.idPropiedad = idPropiedad;
         this.nombre = nombre;

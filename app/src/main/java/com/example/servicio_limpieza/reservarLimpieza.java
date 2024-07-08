@@ -3,6 +3,7 @@ import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -83,6 +84,7 @@ public class reservarLimpieza extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 confirmarPago();
+                actualizarEstadoPropiedad(propiedadId, "Reservada");
             }
         });
         btnConfirmarPago.setVisibility(View.GONE);
@@ -135,6 +137,43 @@ public class reservarLimpieza extends AppCompatActivity {
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP); // Limpiar todas las actividades anteriores
         startActivity(intent);
     }
+
+    private String actualizarEstadoPropiedad(int propiedadId, String nuevoEstado) {
+        Connection conn = null;
+        PreparedStatement stmt = null;
+
+        try {
+            conn = conexionBD();
+            if (conn == null) {
+                return "No se pudo establecer conexión con la base de datos";
+            }
+
+            String sql = "UPDATE propiedades SET estado = ? WHERE PK_propiedad_ID = ?";
+            stmt = conn.prepareStatement(sql);
+            stmt.setString(1, nuevoEstado);
+            stmt.setInt(2, propiedadId);
+            stmt.executeUpdate();
+            int rowsAffected = stmt.executeUpdate();
+            if (rowsAffected == 0) {
+                Log.e("actualizarEstadoPropiedad", "No se encontró la propiedad con ID: " + propiedadId);
+            } else {
+                Log.d("actualizarEstadoPropiedad", "Estado de la propiedad actualizado correctamente.");
+            }
+        } catch (SQLException e) {
+            // Manejo de errores SQL
+            e.printStackTrace();
+        } finally {
+            // Cerrar PreparedStatement y Connection en el bloque finally
+            try {
+                if (stmt != null) stmt.close();
+                if (conn != null) conn.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+        return "a";
+    }
+
 
     private class BuscarEmpleadoDisponibleTask extends AsyncTask<Integer, Void, String> {
         @Override

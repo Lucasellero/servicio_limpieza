@@ -34,6 +34,12 @@ public class propertyAdapter extends RecyclerView.Adapter<propertyAdapter.Proper
         holder.propertyAddress.setText(propiedad.getDireccion());
         holder.propertyState.setText(propiedad.getEstado());
 
+        if (propiedad.getEstado().equalsIgnoreCase("Reservada")) {
+            holder.btnReservarLimpieza.setVisibility(View.GONE);
+        } else {
+            holder.btnReservarLimpieza.setVisibility(View.VISIBLE);
+        }
+
         holder.btnReservarLimpieza.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -66,3 +72,4 @@ public class propertyAdapter extends RecyclerView.Adapter<propertyAdapter.Proper
         }
     }
 }
+

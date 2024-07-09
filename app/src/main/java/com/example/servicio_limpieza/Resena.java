@@ -7,6 +7,7 @@ import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.RatingBar;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -24,9 +25,8 @@ public class Resena extends AppCompatActivity {
     private TextView legajoEditText;
     private TextView barrioEditText;
     private EditText reviewEditText;
-    private Spinner ratingSpinner;
+    private RatingBar ratingBar;
     private Button btnConfirmar;
-
     private int empleadoId;
     private int propiedadId;
 
@@ -42,7 +42,7 @@ public class Resena extends AppCompatActivity {
         legajoEditText = findViewById(R.id.legajo);
         barrioEditText = findViewById(R.id.barrio);
         reviewEditText = findViewById(R.id.review);
-        ratingSpinner = findViewById(R.id.spinner_rating);
+        ratingBar = findViewById(R.id.ratingBar);
         btnConfirmar = findViewById(R.id.accept_button);
 
         btnConfirmar.setOnClickListener(new View.OnClickListener() {
@@ -54,19 +54,13 @@ public class Resena extends AppCompatActivity {
             }
         });
 
-        // Initialize the Spinner
-        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
-                R.array.rating_array, android.R.layout.simple_spinner_item);
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        ratingSpinner.setAdapter(adapter);
-
         // Load employee details from the database
         new LoadEmployeeDetailsTask().execute(empleadoId);
     }
 
     private void confirmarResena() {
         String resena = reviewEditText.getText().toString();
-        String calificacion = ratingSpinner.getSelectedItem().toString();
+        String calificacion = String.valueOf(ratingBar.getRating());
 
         new ActualizarCalificacionTask().execute(resena, calificacion);
     }

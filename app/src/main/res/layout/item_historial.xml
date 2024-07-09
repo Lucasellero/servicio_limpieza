@@ -3,45 +3,61 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="horizontal"
-    android:background="@drawable/item_background"
+    android:background="@drawable/property_background"
     android:padding="16dp"
-    android:layout_marginBottom="8dp">
+    android:layout_marginBottom="8dp"
+    android:elevation="4dp"
+    android:layout_gravity="center_vertical">
 
     <LinearLayout
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_weight="1"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:paddingEnd="16dp">
 
         <TextView
             android:id="@+id/tvPropiedadId"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textColor="#FFFFFF"
+            android:textColor="#000000"
             android:textSize="18sp"
-            android:textStyle="bold" />
+            android:textStyle="bold"
+            android:paddingBottom="4dp"
+            android:layout_marginBottom="8dp"
+            android:text="Propiedad ID" />
 
         <TextView
             android:id="@+id/tvFechaLimpieza"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textColor="#FFFFFF"
-            android:textSize="16sp" />
+            android:textColor="#333333"
+            android:textSize="16sp"
+            android:paddingBottom="4dp"
+            android:layout_marginBottom="4dp"
+            android:text="Fecha de Limpieza" />
 
         <TextView
             android:id="@+id/tvNombreEmpleado"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textColor="#FFFFFF"
-            android:textSize="16sp" />
+            android:textColor="#333333"
+            android:textSize="16sp"
+            android:text="Nombre del Empleado" />
     </LinearLayout>
 
     <Button
         android:id="@+id/btnCalificarEmpleado"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:background="@drawable/button_background"
         android:backgroundTint="#2897ED"
         android:text="Calificar"
-        android:textColor="#FFFFFF" />
+        android:textSize="16sp"
+        android:textColor="#FFFFFF"
+        android:paddingHorizontal="12dp"
+        android:paddingVertical="8dp"
+        android:layout_gravity="center_vertical"
+        android:layout_marginStart="16dp"
+        android:elevation="2dp" />
 </LinearLayout>
+

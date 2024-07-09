@@ -1,12 +1,16 @@
 package com.example.servicio_limpieza;
 
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.widget.Button;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import java.sql.Connection;
 import java.sql.ResultSet;
@@ -17,6 +21,7 @@ import java.util.List;
 public class historialLimpieza extends AppCompatActivity {
     private RecyclerView recyclerViewHistorial;
     private HistorialAdapter historialAdapter;
+    private BottomNavigationView bottomNavigationView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,6 +30,29 @@ public class historialLimpieza extends AppCompatActivity {
 
         recyclerViewHistorial = findViewById(R.id.recyclerViewHistorial);
         recyclerViewHistorial.setLayoutManager(new LinearLayoutManager(this));
+
+        bottomNavigationView = findViewById(R.id.bottom_navigation);
+
+        // Configurar el Listener para el BottomNavigationView
+        bottomNavigationView.setOnNavigationItemSelectedListener(item -> {
+            int id = item.getItemId();
+            if (id == R.id.navigation_home) {
+                Intent intent = new Intent(historialLimpieza.this, home.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+                startActivity(intent);
+                return true;
+            } else if (id == R.id.navigation_history) {
+                return true;
+            }else if (id == R.id.navigation_profile){
+                Intent intent = new Intent(historialLimpieza.this, perfil.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+                startActivity(intent);
+                return true;
+            }
+            return false;
+        });
+
+        bottomNavigationView.setSelectedItemId(R.id.navigation_history);
 
         new FetchDataTask().execute();
     }

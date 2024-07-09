@@ -25,7 +25,7 @@
         android:layout_below="@id/profile_image"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="16dp"
-        android:text="Sr. Lorenzo"
+        android:text="Sr. Lucas"
         android:textSize="18sp" />
 
     <!-- Etiqueta "Usuario Premium" -->
@@ -48,7 +48,7 @@
         android:layout_below="@+id/premium_user_label"
         android:layout_marginStart="18dp"
         android:layout_marginTop="15dp"
-        android:text="Nombre: Lorenzo"
+        android:text="Nombre: Lucas"
         android:textSize="16sp" />
 
     <TextView
@@ -58,7 +58,7 @@
         android:layout_below="@+id/name"
         android:layout_marginStart="18dp"
         android:layout_marginTop="30dp"
-        android:text="Apellido: Ferrario"
+        android:text="Apellido: Carretto"
         android:textSize="16sp" />
 
     <TextView
@@ -68,7 +68,7 @@
         android:layout_below="@+id/surname"
         android:layout_marginStart="18dp"
         android:layout_marginTop="30dp"
-        android:text="Direccion: Av Santa Fe 123"
+        android:text="Direccion: Av Sarmiento 123"
         android:textSize="16sp" />
 
     <TextView

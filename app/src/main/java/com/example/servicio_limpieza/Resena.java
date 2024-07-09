@@ -1,11 +1,12 @@
 package com.example.servicio_limpieza;
 
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -24,22 +25,34 @@ public class Resena extends AppCompatActivity {
     private TextView barrioEditText;
     private EditText reviewEditText;
     private Spinner ratingSpinner;
+    private Button btnConfirmar;
 
     private int empleadoId;
+    private int propiedadId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_resena);
 
-        int propiedadId = getIntent().getIntExtra("propiedad_id", -1);
-        empleadoId = getIntent().getIntExtra("empleado_id", -1); // Obtener el ID del empleado
+        propiedadId = getIntent().getIntExtra("propiedad_id", -1);
+        empleadoId = getIntent().getIntExtra("empleado_id", -1);
 
         nombreEditText = findViewById(R.id.nombre);
         legajoEditText = findViewById(R.id.legajo);
         barrioEditText = findViewById(R.id.barrio);
         reviewEditText = findViewById(R.id.review);
         ratingSpinner = findViewById(R.id.spinner_rating);
+        btnConfirmar = findViewById(R.id.accept_button);
+
+        btnConfirmar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                confirmarResena();
+                Intent intent = new Intent(Resena.this, historialLimpieza.class);
+                startActivity(intent);
+            }
+        });
 
         // Initialize the Spinner
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
@@ -51,68 +64,58 @@ public class Resena extends AppCompatActivity {
         new LoadEmployeeDetailsTask().execute(empleadoId);
     }
 
-    public void confirmarResena(View view) {
-        String nombre = nombreEditText.getText().toString();
-        String legajo = legajoEditText.getText().toString();
-        String barrio = barrioEditText.getText().toString();
+    private void confirmarResena() {
         String resena = reviewEditText.getText().toString();
         String calificacion = ratingSpinner.getSelectedItem().toString();
 
-        new ActualizarCalificacionTask().execute(nombre, legajo, barrio, resena, calificacion);
+        new ActualizarCalificacionTask().execute(resena, calificacion);
     }
 
-    private class LoadEmployeeDetailsTask extends AsyncTask<Integer, Void, Boolean> {
-        private String nombre;
-        private String legajo;
-        private String barrio;
+    private class LoadEmployeeDetailsTask extends AsyncTask<Integer, Void, EmployeeDetails> {
 
         @Override
-        protected Boolean doInBackground(Integer... params) {
-            int empleadoId = params[0];
-
+        protected EmployeeDetails doInBackground(Integer... params) {
             Connection conn = null;
             PreparedStatement stmt = null;
-            ResultSet rs = null;
 
             try {
                 conn = conexionBD();
                 if (conn == null) {
-                    return false;
+                    return null;
                 }
 
-                String sql = "SELECT nombre, legajo, barrio FROM personal WHERE PK_personal_ID = ?";
+                String sql = "SELECT nombre, apellido, PK_personal_ID, barrio FROM personal WHERE PK_personal_ID = ?";
                 stmt = conn.prepareStatement(sql);
-                stmt.setInt(1, empleadoId);
-                rs = stmt.executeQuery();
+                stmt.setInt(1, params[0]);
+                ResultSet rs = stmt.executeQuery();
 
                 if (rs.next()) {
-                    nombre = rs.getString("nombre");
-                    legajo = rs.getString("legajo");
-                    barrio = rs.getString("barrio");
-                    return true;
-                } else {
-                    return false;
+                    EmployeeDetails details = new EmployeeDetails();
+                    details.nombre = rs.getString("nombre");
+                    details.legajo = rs.getString("PK_personal_ID");
+                    details.barrio = rs.getString("barrio");
+                    details.apellido = rs.getString("apellido");
+                    return details;
                 }
             } catch (SQLException e) {
                 e.printStackTrace();
-                return false;
             } finally {
                 try {
-                    if (rs != null) rs.close();
                     if (stmt != null) stmt.close();
                     if (conn != null) conn.close();
                 } catch (SQLException e) {
                     e.printStackTrace();
                 }
             }
+            return null;
         }
 
         @Override
-        protected void onPostExecute(Boolean success) {
-            if (success) {
-                nombreEditText.setText(nombre);
-                legajoEditText.setText(legajo);
-                barrioEditText.setText(barrio);
+        protected void onPostExecute(EmployeeDetails details) {
+            if (details != null) {
+                nombreEditText.setText("Empleado a cargo: " + details.nombre + " " + details.apellido);
+                legajoEditText.setText("Legajo del empleado: " + details.legajo);
+                barrioEditText.setText("Barrio: " + details.barrio);
             } else {
                 Toast.makeText(Resena.this, "Error al cargar los datos del empleado", Toast.LENGTH_SHORT).show();
             }
@@ -120,13 +123,11 @@ public class Resena extends AppCompatActivity {
     }
 
     private class ActualizarCalificacionTask extends AsyncTask<String, Void, Boolean> {
+
         @Override
         protected Boolean doInBackground(String... params) {
-            String nombre = params[0];
-            String legajo = params[1];
-            String barrio = params[2];
-            String resena = params[3];
-            float calificacion = Float.parseFloat(params[4]);
+            String resena = params[0];
+            float calificacion = Float.parseFloat(params[1]);
 
             Connection conn = null;
             PreparedStatement stmt = null;
@@ -137,16 +138,18 @@ public class Resena extends AppCompatActivity {
                     return false;
                 }
 
-                String sql = "UPDATE personal SET calificación = ? WHERE PK_personal_ID = ?";
+                // Actualizar la calificación y cambiar el estado a "Calificada"
+                String sql = "UPDATE limpiezas SET calificacion = ?, calificar = 'Calificada' WHERE FK_propiedad_ID = ? and FK_empleado_ID = ?";
                 stmt = conn.prepareStatement(sql);
                 stmt.setFloat(1, calificacion);
-                stmt.setInt(2, empleadoId);
-                stmt.executeUpdate();
+                stmt.setInt(2, propiedadId);
+                stmt.setInt(3,empleadoId);
+                int rowsAffected = stmt.executeUpdate();
 
-                return true;
+                return rowsAffected > 0;
+
             } catch (SQLException e) {
                 e.printStackTrace();
-                return false;
             } finally {
                 try {
                     if (stmt != null) stmt.close();
@@ -155,15 +158,15 @@ public class Resena extends AppCompatActivity {
                     e.printStackTrace();
                 }
             }
+            return false;
         }
 
         @Override
         protected void onPostExecute(Boolean success) {
             if (success) {
-                Toast.makeText(Resena.this, "Calificación actualizada exitosamente", Toast.LENGTH_SHORT).show();
-                finish(); // Close the activity after saving
+                Toast.makeText(Resena.this, "Calificación y estado de la limpieza actualizados exitosamente", Toast.LENGTH_SHORT).show();
             } else {
-                Toast.makeText(Resena.this, "Error al actualizar la calificación. Por favor, inténtelo de nuevo.", Toast.LENGTH_SHORT).show();
+                Toast.makeText(Resena.this, "Error al actualizar la calificación y estado de la limpieza. Por favor, inténtelo de nuevo.", Toast.LENGTH_SHORT).show();
             }
         }
     }
@@ -172,4 +175,14 @@ public class Resena extends AppCompatActivity {
         Connection conexion = databaseConnection.getConnection();
         return conexion;
     }
+
+    // Clase para almacenar los detalles del empleado
+    private static class EmployeeDetails {
+        String nombre;
+        String legajo;
+        String barrio;
+        String apellido;
+    }
 }
+
+

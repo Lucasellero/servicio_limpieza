@@ -2,18 +2,11 @@ package com.example.servicio_limpieza;
 
 public class Limpieza {
     private int propiedadId;
-    private String fecha;
     private int empleadoId;
+    private String fecha;
+    private String nombreEmpleado;
 
-    public Limpieza() {
-        // Constructor por defecto necesario para Firebase
-    }
-
-    public Limpieza(int propiedadId, String fecha, int empleadoId) {
-        this.propiedadId = propiedadId;
-        this.fecha = fecha;
-        this.empleadoId = empleadoId;
-    }
+    // Getters y Setters
 
     public int getPropiedadId() {
         return propiedadId;
@@ -21,6 +14,14 @@ public class Limpieza {
 
     public void setPropiedadId(int propiedadId) {
         this.propiedadId = propiedadId;
+    }
+
+    public int getEmpleadoId() {
+        return empleadoId;
+    }
+
+    public void setEmpleadoId(int empleadoId) {
+        this.empleadoId = empleadoId;
     }
 
     public String getFecha() {
@@ -31,11 +32,12 @@ public class Limpieza {
         this.fecha = fecha;
     }
 
-    public int getEmpleadoId() {
-        return empleadoId;
+    public String getNombreEmpleado() {
+        return nombreEmpleado;
     }
 
-    public void setEmpleadoId(int empleadoId) {
-        this.empleadoId = empleadoId;
+    public void setNombreEmpleado(String nombreEmpleado) {
+        this.nombreEmpleado = nombreEmpleado;
     }
 }
+

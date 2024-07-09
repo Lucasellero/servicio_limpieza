@@ -26,6 +26,8 @@
         android:layout_height="match_parent"
         android:layout_below="@id/tvTitle"
         android:layout_marginTop="16dp"
+        android:divider="@android:color/darker_gray"
+        android:dividerHeight="1dp"
         android:padding="16dp" />
 
     <!-- Bottom Navigation -->
@@ -39,3 +41,4 @@
         app:labelVisibilityMode="labeled"
         app:menu="@menu/bottom_navigation_menu" />
 </RelativeLayout>
+

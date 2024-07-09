@@ -81,11 +81,11 @@ public class cargar_propiedad extends AppCompatActivity {
     private boolean validateFields() {
         // Validar que todos los campos estén completos
         return !nameEditText.getText().toString().isEmpty() &&
-                !spinnerBarrio.getSelectedItem().toString().isEmpty() &&
+                spinnerBarrio.getSelectedItem() != null &&
                 !addressEditText.getText().toString().isEmpty() &&
-                !spinnerEstado.getSelectedItem().toString().isEmpty() &&
+                spinnerEstado.getSelectedItem() != null &&
                 !sizeEditText.getText().toString().isEmpty() &&
-                !spinnerTipo.getSelectedItem().toString().isEmpty();
+                spinnerTipo.getSelectedItem() != null;
     }
 
     private void cargarPropiedad() {
@@ -93,7 +93,15 @@ public class cargar_propiedad extends AppCompatActivity {
         String barrio = spinnerBarrio.getSelectedItem().toString();
         String direccion = addressEditText.getText().toString();
         String estado = spinnerEstado.getSelectedItem().toString();
-        int tamano = Integer.parseInt(sizeEditText.getText().toString());
+        int tamano;
+
+        try {
+            tamano = Integer.parseInt(sizeEditText.getText().toString());
+        } catch (NumberFormatException e) {
+            Toast.makeText(cargar_propiedad.this, "El tamaño debe ser un número válido.", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
         String tipo = spinnerTipo.getSelectedItem().toString();
 
         // Obtener el ID del usuario en sesión
@@ -141,16 +149,20 @@ public class cargar_propiedad extends AppCompatActivity {
                 int result = stmt.executeUpdate();
                 mensaje = result > 0 ? "Propiedad cargada exitosamente" : "Error al cargar la propiedad";
 
-                usuario Usuario = usuario.getInstance();
-                PreparedStatement propiedadesStmt = conn.prepareStatement("SELECT * FROM propiedades WHERE nombre = ? and direccion = ?");
-                propiedadesStmt.setString(1, nombre);
-                propiedadesStmt.setString(2, direccion);
-                ResultSet propiedadesResultSet = propiedadesStmt.executeQuery();
+                if (result > 0) {
+                    PreparedStatement propiedadesStmt = conn.prepareStatement("SELECT * FROM propiedades WHERE nombre = ? and direccion = ?");
+                    propiedadesStmt.setString(1, nombre);
+                    propiedadesStmt.setString(2, direccion);
+                    ResultSet propiedadesResultSet = propiedadesStmt.executeQuery();
 
-                if (propiedadesResultSet.next()) {
-                    int propiedadId = propiedadesResultSet.getInt("PK_propiedad_ID");
-                    propiedad propiedad = new propiedad(propiedadId, nombre, direccion, barrio, tamano, estado, tipo, propietarioId);
-                    Usuario.agregarPropiedad(propiedad);
+                    if (propiedadesResultSet.next()) {
+                        int propiedadId = propiedadesResultSet.getInt("PK_propiedad_ID");
+                        propiedad propiedad = new propiedad(propiedadId, nombre, direccion, barrio, tamano, estado, tipo, propietarioId);
+                        usuario Usuario = usuario.getInstance();
+                        Usuario.agregarPropiedad(propiedad);
+                    }
+
+                    propiedadesStmt.close();
                 }
 
             } catch (SQLException e) {
@@ -181,4 +193,5 @@ public class cargar_propiedad extends AppCompatActivity {
         }
     }
 }
+
 

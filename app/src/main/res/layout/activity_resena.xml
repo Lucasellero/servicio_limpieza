@@ -27,7 +27,7 @@
         android:layout_below="@id/title"
         android:layout_marginTop="50dp"
         android:hint="Nombre"
-        android:textSize="20sp"
+        android:textSize="18sp"
         app:layout_constraintTop_toBottomOf="@+id/title"
         tools:ignore="MissingConstraints"
         tools:layout_editor_absoluteX="16dp" />
@@ -40,7 +40,7 @@
         android:layout_marginTop="32dp"
         android:hint="Legajo"
         android:inputType="number"
-        android:textSize="20sp"
+        android:textSize="18sp"
         app:layout_constraintTop_toBottomOf="@+id/nombre"
         tools:ignore="MissingConstraints"
         tools:layout_editor_absoluteX="16dp" />
@@ -52,7 +52,7 @@
         android:layout_below="@id/legajo"
         android:layout_marginTop="32dp"
         android:hint="Dirección donde se realizó la limpieza"
-        android:textSize="20sp"
+        android:textSize="18sp"
         app:layout_constraintTop_toBottomOf="@+id/legajo"
         tools:ignore="MissingConstraints"
         tools:layout_editor_absoluteX="16dp" />

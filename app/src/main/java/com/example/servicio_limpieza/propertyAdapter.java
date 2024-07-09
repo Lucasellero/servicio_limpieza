@@ -10,6 +10,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import java.sql.Connection;
 import java.util.List;
 
 public class propertyAdapter extends RecyclerView.Adapter<propertyAdapter.PropertyViewHolder> {
@@ -71,5 +72,6 @@ public class propertyAdapter extends RecyclerView.Adapter<propertyAdapter.Proper
             btnReservarLimpieza = itemView.findViewById(R.id.btn_reservar_limpieza);
         }
     }
+
 }
 

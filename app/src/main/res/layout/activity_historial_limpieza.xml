@@ -19,15 +19,13 @@
         android:textSize="24sp"
         android:textStyle="bold" />
 
-    <!-- ListView para mostrar el historial -->
-    <ListView
-        android:id="@+id/listViewHistorial"
+    <!-- RecyclerView para mostrar el historial -->
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerViewHistorial"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@id/tvTitle"
         android:layout_marginTop="16dp"
-        android:divider="@android:color/darker_gray"
-        android:dividerHeight="1dp"
         android:padding="16dp" />
 
     <!-- Bottom Navigation -->

@@ -40,6 +40,7 @@ public class HistorialAdapter extends RecyclerView.Adapter<HistorialAdapter.Hist
             public void onClick(View v) {
                 Intent intent = new Intent(v.getContext(), Resena.class);
                 intent.putExtra("propiedad_id", limpieza.getPropiedadId());
+                intent.putExtra("empleado_id", limpieza.getEmpleadoId());
                 v.getContext().startActivity(intent);
             }
         });
@@ -63,3 +64,4 @@ public class HistorialAdapter extends RecyclerView.Adapter<HistorialAdapter.Hist
         }
     }
 }
+

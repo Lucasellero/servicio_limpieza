@@ -31,6 +31,11 @@ public class perfil extends AppCompatActivity {
                 } else if (id == R.id.navigation_profile) {
                     // Ya estamos en la actividad ProfileActivity, no hacer nada
                     return true;
+                }else if (id == R.id.navigation_history){
+                    Intent intent = new Intent(perfil.this, historialLimpieza.class);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+                    startActivity(intent);
+                    return true;
                 }
                 return false;
             }

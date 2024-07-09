@@ -60,9 +60,15 @@ public class home extends AppCompatActivity {
                 return true;
             } else if (id == R.id.navigation_home) {
                 return true;
+            }else if (id == R.id.navigation_history){
+                Intent intent = new Intent(home.this, historialLimpieza.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+                startActivity(intent);
+                return true;
             }
             return false;
         });
+
 
         usuario Usuario = usuario.getInstance();
 

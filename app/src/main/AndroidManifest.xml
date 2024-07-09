@@ -55,5 +55,18 @@
             android:name=".reservarLimpieza"
             android:theme="@style/Theme.Servicio_limpieza"
             android:exported="false" />
+
+        <activity
+            android:name=".historialLimpieza"
+            android:theme="@style/Theme.Servicio_limpieza"
+            android:exported="false" />
+
+        <activity
+            android:name=".Resena"
+            android:theme="@style/Theme.Servicio_limpieza"
+            android:exported="false" />
+
+
+
     </application>
 </manifest>

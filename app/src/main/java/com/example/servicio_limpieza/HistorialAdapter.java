@@ -1,6 +1,7 @@
 package com.example.servicio_limpieza;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -34,8 +35,13 @@ public class HistorialAdapter extends RecyclerView.Adapter<HistorialAdapter.Hist
         Limpieza limpieza = limpiezas.get(position);
         holder.tvPropiedadId.setText("Departamento " + limpieza.getPropiedadId());
         holder.tvFechaLimpieza.setText("Fecha limpieza: " + limpieza.getFecha());
-        holder.btnCalificar.setOnClickListener(v -> {
-            // Implementar acción para calificar
+        holder.btnCalificar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(v.getContext(), Resena.class);
+                intent.putExtra("propiedad_id", limpieza.getPropiedadId());
+                v.getContext().startActivity(intent);
+            }
         });
     }
 
@@ -53,7 +59,7 @@ public class HistorialAdapter extends RecyclerView.Adapter<HistorialAdapter.Hist
             super(itemView);
             tvPropiedadId = itemView.findViewById(R.id.tvPropiedadId);
             tvFechaLimpieza = itemView.findViewById(R.id.tvFechaLimpieza);
-            btnCalificar = itemView.findViewById(R.id.btnCalificar);
+            btnCalificar = itemView.findViewById(R.id.btnCalificarEmpleado);
         }
     }
 }
